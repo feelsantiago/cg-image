@@ -61,6 +61,8 @@ export class CanvasComponent implements OnInit, AfterViewInit {
             pixelCount += 4;
         }
 
+        // Draw next tick, after angular redraw component sizes
+        // There is no 'setImmediate' on browsers
         setTimeout(() => {
             // Draw image on canvas position [0, 0]
             this.canvasContext.putImageData(imageData, 0, 0);

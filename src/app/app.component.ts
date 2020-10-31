@@ -17,7 +17,11 @@ export class AppComponent {
     public canvas: CanvasComponent
 
     public async onFileChange(files: FilesEvent) {
-        this.image = await PgmFile.load(Object.values(files).shift());
-        this.canvas.drawImage(this.image);
+        const values = Object.values(files);
+
+        if (values && values.length > 0) {
+            this.image = await PgmFile.load(values.shift());
+            this.canvas.drawImage(this.image);
+        }
     }
 }
