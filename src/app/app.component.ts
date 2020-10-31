@@ -1,5 +1,4 @@
 import { Component, ViewChild } from '@angular/core';
-import { type } from 'os';
 import { CanvasComponent } from './shared/components/canvas/canvas.component';
 import { PgmFile } from './shared/types/pgm-image';
 
