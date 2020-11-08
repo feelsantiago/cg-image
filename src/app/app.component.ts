@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { CanvasComponent } from './shared/components/canvas/canvas.component';
 import { FilterService } from './shared/services/filter.service';
+import { FilterTypes } from './shared/types/filter';
 import { Mask, MaskType } from './shared/types/maks';
 import { PgmFile } from './shared/types/pgm-image';
 
@@ -40,9 +41,8 @@ export class AppComponent {
                 -1, -1, -1
             ];
 
-            const filteredImage = this.filterService.transform(this.image, mask, MaskType.correlation);
+            const filteredImage = this.filterService.getFilter(FilterTypes.PassaAltoAgucamento).transform(this.image, MaskType.correlation);
 
-            const newImage: PgmFile = new PgmFile();
             this.outPutCanvas.drawImage(
                 this.image.width,
                 this.image.height,

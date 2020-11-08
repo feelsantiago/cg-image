@@ -4,7 +4,7 @@ import { ImageHelperService } from './image-helper.service';
 
 export class BaseFilterService {
 
-    constructor(private readonly imageHelperService: ImageHelperService) {}
+    constructor(protected readonly imageHelperService: ImageHelperService) {}
 
     protected filterImage(
         image: PgmFile,
