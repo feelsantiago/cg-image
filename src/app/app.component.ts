@@ -1,5 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { CanvasComponent } from './shared/components/canvas/canvas.component';
+import { FilterService } from './shared/services/filter.service';
+import { Mask, MaskType } from './shared/types/maks';
 import { PgmFile } from './shared/types/pgm-image';
 
 type FilesEvent = { [key: number]: File }
@@ -13,14 +15,39 @@ export class AppComponent {
     public image: PgmFile;
 
     @ViewChild(CanvasComponent)
-    public canvas: CanvasComponent
+    public canvas: CanvasComponent;
+
+    @ViewChild('outPutCanvas')
+    public outPutCanvas: CanvasComponent;
+
+    constructor(private readonly filterService: FilterService) {}
 
     public async onFileChange(files: FilesEvent) {
         const values = Object.values(files);
 
         if (values && values.length > 0) {
             this.image = await PgmFile.load(values.shift());
-            this.canvas.drawImage(this.image);
+            this.canvas.drawImage(
+                this.image.width,
+                this.image.height,
+                this.image.pixels
+            );
+
+
+            const mask: Mask = [
+                -1, -1, -1,
+                -1,  9, -1,
+                -1, -1, -1
+            ];
+
+            const filteredImage = this.filterService.transform(this.image, mask, MaskType.correlation);
+
+            const newImage: PgmFile = new PgmFile();
+            this.outPutCanvas.drawImage(
+                this.image.width,
+                this.image.height,
+                filteredImage
+            );
         }
     }
 }

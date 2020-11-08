@@ -42,8 +42,7 @@ export class CanvasComponent implements OnInit, AfterViewInit {
         this.canvasContext.clearRect(0, 0, this.width, this.height);
     }
 
-    public drawImage(image: PgmFile): void {
-        const { width, height, pixels } = image;
+    public drawImage(width: number, height: number, pixels: number[]): void {
         const imageData = this.canvasContext.createImageData(width, height);
         const data = imageData.data;
 
