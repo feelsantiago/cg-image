@@ -5,7 +5,6 @@
  * The rest of the file represent the body witch every element represent a pixel
  */
 export class PgmFile {
-
     public id: string;
 
     public width: number;
@@ -24,13 +23,16 @@ export class PgmFile {
         return this.readFile(file);
     }
 
-    private static async readFile(file: File): Promise<PgmFile> {
+    public pixelAt(x: number, y: number): number {
+        const index = y * this.width + x;
+        return index < 0 ? 0 : this.pixels[index];
+    }
 
+    private static async readFile(file: File): Promise<PgmFile> {
         return new Promise((resolve, reject) => {
             const fileReader = new FileReader();
 
             fileReader.addEventListener('load', (content) => {
-
                 try {
                     const result = content.target.result as string;
                     resolve(this.processContent(result));
@@ -44,17 +46,16 @@ export class PgmFile {
     }
 
     private static processContent(content: string): PgmFile {
-
         const file = new PgmFile();
 
         /* CONTENT HEADER */
 
         // TODO: Can be optimized
-        const lines = content.split("\n");
+        const lines = content.split('\n');
 
         file.id = lines.shift();
 
-        const [width, height] = lines.shift().split(" ");
+        const [width, height] = lines.shift().split(' ');
         file.width = Number(width);
         file.height = Number(height);
 
@@ -65,7 +66,7 @@ export class PgmFile {
 
         /* CONTENT BODY */
         for (let line of lines) {
-            const pixels = line.split(" ").map(pixel => Number(pixel));
+            const pixels = line.split(' ').map((pixel) => Number(pixel));
             file.pixels.push(...pixels);
         }
 
