@@ -11,6 +11,18 @@
         (change)="onFileChange($event.target.files)"
     />
 </div>
+<div>
+    <label for="select-filter">Selecione o filtro: </label>
+    <select
+        name="select-filter"
+        (change)="onFilterSelectChange($event.target.value)"
+    >
+        <option value="none">Selecione um filtro</option>
+        <option *ngFor="let filter of filters" [value]="filter.type">
+            {{ filter.name }}
+        </option>
+    </select>
+</div>
 <app-canvas
     [width]="image ? image.width : 0"
     [height]="image ? image.height : 0"

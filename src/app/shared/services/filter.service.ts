@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Filter, FilterTypes } from '../types/filter';
+import { FilterTypeInfo, getFilterInfo } from '../utils/filter.decorator';
 import { PassaAltoAgucamentoFilter } from './filtros/passa-alto-agucamento.filter';
 import { PassaAltoBordaFilter } from './filtros/passa-alto-bordas.filter';
-import { ImageHelperService } from './image-helper.service';
 
 @Injectable({ providedIn: 'root' })
 export class FilterService {
@@ -11,6 +11,14 @@ export class FilterService {
         private readonly passaAltoBordasFilter: PassaAltoBordaFilter,
         private readonly passaAltoAgucamento: PassaAltoAgucamentoFilter,
     ) {}
+
+    public getAllFilters(): FilterTypeInfo[] {
+
+        return [
+            getFilterInfo(this.passaAltoAgucamento),
+            getFilterInfo(this.passaAltoBordasFilter),
+        ];
+    }
 
     public getFilter(type: FilterTypes): Filter {
 

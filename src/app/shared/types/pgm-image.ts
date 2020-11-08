@@ -23,7 +23,7 @@ export class PgmFile {
         return this.readFile(file);
     }
 
-    public pixelAt(x, y): number {
+    public pixelAt(x: number, y: number): number {
         const index = y * this.width + x;
         return index < 0 ? 0 : this.pixels[index];
     }

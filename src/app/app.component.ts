@@ -1,11 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
 import { CanvasComponent } from './shared/components/canvas/canvas.component';
 import { FilterService } from './shared/services/filter.service';
-import { FilterTypes } from './shared/types/filter';
+import { Filter, FilterTypes } from './shared/types/filter';
 import { Mask, MaskType } from './shared/types/maks';
 import { PgmFile } from './shared/types/pgm-image';
+import { FilterTypeInfo, getFilterInfo } from './shared/utils/filter.decorator';
 
-type FilesEvent = { [key: number]: File }
+type FilesEvent = { [key: number]: File };
 
 @Component({
     selector: 'app-root',
@@ -13,15 +14,33 @@ type FilesEvent = { [key: number]: File }
     styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-    public image: PgmFile;
-
     @ViewChild(CanvasComponent)
     public canvas: CanvasComponent;
 
     @ViewChild('outPutCanvas')
     public outPutCanvas: CanvasComponent;
 
-    constructor(private readonly filterService: FilterService) {}
+    public image: PgmFile;
+
+    public filters: FilterTypeInfo[] = [];
+
+    constructor(private readonly filterService: FilterService) {
+        this.filters = filterService.getAllFilters();
+    }
+
+    public onFilterSelectChange(value: string): void {
+        if (this.image) {
+            const filteredImage = this.filterService
+                .getFilter(Number(value))
+                .transform(this.image, MaskType.correlation);
+
+            this.outPutCanvas.drawImage(
+                this.image.width,
+                this.image.height,
+                filteredImage
+            );
+        }
+    }
 
     public async onFileChange(files: FilesEvent) {
         const values = Object.values(files);
@@ -32,21 +51,6 @@ export class AppComponent {
                 this.image.width,
                 this.image.height,
                 this.image.pixels
-            );
-
-
-            const mask: Mask = [
-                -1, -1, -1,
-                -1,  9, -1,
-                -1, -1, -1
-            ];
-
-            const filteredImage = this.filterService.getFilter(FilterTypes.PassaAltoAgucamento).transform(this.image, MaskType.correlation);
-
-            this.outPutCanvas.drawImage(
-                this.image.width,
-                this.image.height,
-                filteredImage
             );
         }
     }

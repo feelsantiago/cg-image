@@ -9,7 +9,7 @@ export class ImageHelperService {
      * @param rows total of rows
      * @returns [x, y] coordinate
      */
-    public calculateCoordinates(index, columns, rows): [number, number] {
+    public calculateCoordinates(index: number, columns: number, rows: number): [number, number] {
         //for each row
         for (let i = 0; i < rows; i++) {
             //check if the index parameter is in the row
