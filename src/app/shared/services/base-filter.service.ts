@@ -29,7 +29,7 @@ export class BaseFilterService {
         return newImage;
     }
 
-    private getNeighborhoods(index: number, image: PgmFile): Mask {
+    protected getNeighborhoods(index: number, image: PgmFile): Mask {
         const [x, y] = this.imageHelperService.calculateCoordinates(
             index,
             image.width,
@@ -56,7 +56,7 @@ export class BaseFilterService {
         ]
     }
 
-    private convolutionMask(mask: Mask): Mask {
+    protected convolutionMask(mask: Mask): Mask {
 
         // prettier-ignore
         const convolution: Mask = [

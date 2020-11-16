@@ -9,4 +9,7 @@ export interface Filter {
 export enum FilterTypes {
     PassaAltoBordas,
     PassaAltoAgucamento,
+
+    PassaBaixoMedia,
+    PassaBaixoMediana,
 }
