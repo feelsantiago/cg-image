@@ -38,7 +38,7 @@ export class RobertsMagFilter extends BaseFilterService implements Filter {
 
         for (let i = 0; i < image.length; i++) {
             const xPow = Math.pow(filterX[i], 2);
-            const yPow = Math.pow(filterX[i], 2);
+            const yPow = Math.pow(filterY[i], 2);
             imageMag.push(Math.sqrt(xPow + yPow));
         }
 

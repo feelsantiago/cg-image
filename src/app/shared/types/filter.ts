@@ -19,4 +19,8 @@ export enum FilterTypes {
     RobertsCruzadoX,
     RobertsCruzadoY,
     RobertsCruzadoMag,
+
+    PrewittX,
+    PrewittY,
+    PrewittMag,
 }

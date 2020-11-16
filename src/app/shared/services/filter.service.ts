@@ -5,6 +5,9 @@ import { PassaAltoAgucamentoFilter } from './filtros/passa-alto-agucamento.filte
 import { PassaAltoBordaFilter } from './filtros/passa-alto-bordas.filter';
 import { PassaBaixoMediaFilter } from './filtros/passa-baixo-media.filter';
 import { PassaBaixoMedianaFilter } from './filtros/passa-baixo-mediana.filter';
+import { PrewittMagFilter } from './filtros/prewitt-mag.filter';
+import { PrewittXFilter } from './filtros/prewitt-x.filter';
+import { PrewittYFilter } from './filtros/prewitt-y.filter';
 import { RobertsCruzadoMagFilter } from './filtros/roberts-cruzado-mag.filter';
 import { RobertsCruzadoXFilter } from './filtros/roberts-cruzado-x.filter';
 import { RobertsCruzadoYFilter } from './filtros/roberts-cruzado-y.filter';
@@ -25,7 +28,10 @@ export class FilterService {
 
         private readonly robertsCruzadoX: RobertsCruzadoXFilter,
         private readonly robertsCruzadoY: RobertsCruzadoYFilter,
-        private readonly robertsCruzadoMag: RobertsCruzadoMagFilter
+        private readonly robertsCruzadoMag: RobertsCruzadoMagFilter,
+        private readonly prewittX: PrewittXFilter,
+        private readonly prewittY: PrewittYFilter,
+        private readonly prewittMag: PrewittMagFilter,
     ) {}
 
     public getAllFilters(): FilterTypeInfo[] {
@@ -40,6 +46,9 @@ export class FilterService {
             getFilterInfo(this.robertsCruzadoX),
             getFilterInfo(this.robertsCruzadoY),
             getFilterInfo(this.robertsCruzadoMag),
+            getFilterInfo(this.prewittX),
+            getFilterInfo(this.prewittY),
+            getFilterInfo(this.prewittMag),
         ];
     }
 
@@ -65,6 +74,12 @@ export class FilterService {
                 return this.robertsCruzadoY;
             case FilterTypes.RobertsCruzadoMag:
                 return this.robertsCruzadoMag;
+            case FilterTypes.PrewittX:
+                return this.prewittX;
+            case FilterTypes.PrewittY:
+                return this.prewittY;
+            case FilterTypes.PrewittMag:
+                return this.prewittMag;
         }
     }
 }
