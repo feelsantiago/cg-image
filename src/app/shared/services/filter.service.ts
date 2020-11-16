@@ -5,6 +5,9 @@ import { PassaAltoAgucamentoFilter } from './filtros/passa-alto-agucamento.filte
 import { PassaAltoBordaFilter } from './filtros/passa-alto-bordas.filter';
 import { PassaBaixoMediaFilter } from './filtros/passa-baixo-media.filter';
 import { PassaBaixoMedianaFilter } from './filtros/passa-baixo-mediana.filter';
+import { RobertsCruzadoMagFilter } from './filtros/roberts-cruzado-mag.filter';
+import { RobertsCruzadoXFilter } from './filtros/roberts-cruzado-x.filter';
+import { RobertsCruzadoYFilter } from './filtros/roberts-cruzado-y.filter';
 import { RobertsMagFilter } from './filtros/roberts-mag.filter';
 import { RobertsXFilter } from './filtros/roberts-x.filter';
 import { RobertsYFilter } from './filtros/roberts-y.filter';
@@ -18,7 +21,11 @@ export class FilterService {
         private readonly passaAltoAgucamento: PassaAltoAgucamentoFilter,
         private readonly robertsX: RobertsXFilter,
         private readonly robertsY: RobertsYFilter,
-        private readonly robertsMag: RobertsMagFilter
+        private readonly robertsMag: RobertsMagFilter,
+
+        private readonly robertsCruzadoX: RobertsCruzadoXFilter,
+        private readonly robertsCruzadoY: RobertsCruzadoYFilter,
+        private readonly robertsCruzadoMag: RobertsCruzadoMagFilter
     ) {}
 
     public getAllFilters(): FilterTypeInfo[] {
@@ -30,6 +37,9 @@ export class FilterService {
             getFilterInfo(this.robertsX),
             getFilterInfo(this.robertsY),
             getFilterInfo(this.robertsMag),
+            getFilterInfo(this.robertsCruzadoX),
+            getFilterInfo(this.robertsCruzadoY),
+            getFilterInfo(this.robertsCruzadoMag),
         ];
     }
 
@@ -49,6 +59,12 @@ export class FilterService {
                 return this.robertsY;
             case FilterTypes.RobertsMag:
                 return this.robertsMag;
+            case FilterTypes.RobertsCruzadoX:
+                return this.robertsCruzadoX;
+            case FilterTypes.RobertsCruzadoY:
+                return this.robertsCruzadoY;
+            case FilterTypes.RobertsCruzadoMag:
+                return this.robertsCruzadoMag;
         }
     }
 }

@@ -16,4 +16,7 @@ export enum FilterTypes {
     RobertsX,
     RobertsY,
     RobertsMag,
+    RobertsCruzadoX,
+    RobertsCruzadoY,
+    RobertsCruzadoMag,
 }
