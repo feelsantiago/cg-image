@@ -3,13 +3,13 @@ import { PgmFile } from '../types/pgm-image';
 import { ImageHelperService } from './image-helper.service';
 
 export class BaseFilterService {
-
     constructor(protected readonly imageHelperService: ImageHelperService) {}
 
     protected filterImage(
         image: PgmFile,
         mask: Mask,
-        type: MaskType = MaskType.correlation
+        type: MaskType = MaskType.correlation,
+        abs = false
     ): number[] {
         const newImage = [];
 
@@ -21,6 +21,10 @@ export class BaseFilterService {
 
             for (let j = 0; j < 9; j++) {
                 sum += neighborhoods[j] * mask[j];
+
+                // sum = sum > 255 ? 255 : Math.max(0, sum);
+
+                if (abs) sum = Math.abs(sum);
             }
 
             newImage.push(sum);
@@ -29,35 +33,53 @@ export class BaseFilterService {
         return newImage;
     }
 
-    protected getNeighborhoods(index: number, image: PgmFile): Mask {
-        const [x, y] = this.imageHelperService.calculateCoordinates(
-            index,
-            image.width,
-            image.height
-        );
+    protected getNeighborhoods(i: number, image: PgmFile, zeroCount = true, addCenter = true): Mask {
 
-        const topLeft = image.pixelAt(x - 1, y - 1);
-        const top = image.pixelAt(x - 1, y);
-        const topRight = image.pixelAt(x - 1, y + 1);
+        const neighbors = [];
 
-        const left = image.pixelAt(x, y - 1);
-        const center = image.pixelAt(x, y);
-        const right = image.pixelAt(x, y + 1);
+        if (i - image.width - 1 >= 0 && i % image.width != 0)
+            // northwest
+            neighbors.push(image.pixels[i - image.width - 1]);
+        else if (zeroCount) neighbors.push(0);
 
-        const bottomLeft = image.pixelAt(x + 1, y - 1);
-        const bottom = image.pixelAt(x + 1, y);
-        const bottomRight = image.pixelAt(x + 1, y + 1);
+        if (i - image.width >= 0) neighbors.push(image.pixels[i - image.width]);
+        // north
+        else if (zeroCount) neighbors.push(0);
 
-        // prettier-ignore
-        return [
-            topLeft, top, topRight,
-            left, center, right,
-            bottomLeft, bottom, bottomRight
-        ]
+        if (i - image.width + 1 >= 0 && (i + 1) % image.width != 0)
+            // northeast
+            neighbors.push(image.pixels[i - image.width + 1]);
+        else if (zeroCount) neighbors.push(0);
+
+        if (i % image.width != 0) neighbors.push(image.pixels[i - 1]);
+        // west
+        else if (zeroCount) neighbors.push(0);
+
+        if (addCenter)
+            neighbors.push(image.pixels[i]);
+
+        if ((i + 1) % image.width != 0) neighbors.push(image.pixels[i + 1]);
+        // east
+        else if (zeroCount) neighbors.push(0);
+
+        if (i + image.width - 1 < image.length && i % image.width != 0)
+            // southwest
+            neighbors.push(image.pixels[i + image.width - 1]);
+        else if (zeroCount) neighbors.push(0);
+
+        if (i + image.width < image.length) neighbors.push(image.pixels[i + image.width]);
+        // south
+        else if (zeroCount) neighbors.push(0);
+
+        if (i + image.width + 1 < image.length && (i + 1) % image.width != 0)
+            // southeast
+            neighbors.push(image.pixels[i + image.width + 1]);
+        else if (zeroCount) neighbors.push(0);
+
+        return neighbors as Mask;
     }
 
     protected convolutionMask(mask: Mask): Mask {
-
         // prettier-ignore
         const convolution: Mask = [
             mask[8], mask[7], mask[6],

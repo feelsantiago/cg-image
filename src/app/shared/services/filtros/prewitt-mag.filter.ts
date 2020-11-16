@@ -31,15 +31,13 @@ export class PrewittMagFilter extends BaseFilterService implements Filter {
     }
 
     public transform(image: PgmFile, type: MaskType): number[] {
-        const filterX = this.filterImage(image, this.maskX, type);
-        const filterY = this.filterImage(image, this.maskY);
+        const filterX = this.filterImage(image, this.maskX, type, true);
+        const filterY = this.filterImage(image, this.maskY, type, true);
 
         const imageMag = [];
 
         for (let i = 0; i < image.length; i++) {
-            const xPow = Math.pow(filterX[i], 2);
-            const yPow = Math.pow(filterY[i], 2);
-            imageMag.push(Math.sqrt(xPow + yPow));
+            imageMag.push(filterX[i] + filterY[i]);
         }
 
         return imageMag;

@@ -1,8 +1,8 @@
 import { Mask, MaskType } from './maks';
 import { PgmFile } from './pgm-image';
 
-export interface Filter {
-    transform(image: PgmFile, type: MaskType): number[];
+export interface Filter<T = {}> {
+    transform(image: PgmFile, type: MaskType, options?: T): number[];
 }
 
 
@@ -23,4 +23,8 @@ export enum FilterTypes {
     PrewittX,
     PrewittY,
     PrewittMag,
+
+    AltoReforco,
 }
+
+export type AltoReforcoOptions = { fator: number };

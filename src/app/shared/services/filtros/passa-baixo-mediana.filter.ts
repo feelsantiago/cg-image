@@ -11,25 +11,32 @@ import { ImageHelperService } from '../image-helper.service';
     type: FilterTypes.PassaBaixoMediana,
 })
 @Injectable({ providedIn: 'root' })
-export class PassaBaixoMedianaFilter extends BaseFilterService implements Filter {
-
+export class PassaBaixoMedianaFilter
+    extends BaseFilterService
+    implements Filter {
     constructor(imageHelperService: ImageHelperService) {
         super(imageHelperService);
     }
 
     public transform(image: PgmFile, type: MaskType): number[] {
-
         const newImage = [];
 
         for (let i = 0; i < image.length; i++) {
+            const neighborhoods = this.getNeighborhoods(i, image, false, false);
 
-            const neighborhoods = this.getNeighborhoods(i, image);
+            const pixelBefore = image.pixels[i];
+
+            neighborhoods.splice(4, 1);
             neighborhoods.sort();
 
-            const middleOne = neighborhoods[3];
-            const middleTwo = neighborhoods[5];
-
-            newImage.push((middleOne + middleTwo) / 2);
+            const half = neighborhoods.length / 2;
+            if (neighborhoods.length % 2 === 0) {
+                const middleOne = neighborhoods[half];
+                const middleTwo = neighborhoods[half + 1];
+                newImage.push(middleOne + middleTwo / 2);
+            } else {
+                newImage.push(neighborhoods[half - 0.5]);
+            }
         }
 
         return newImage;

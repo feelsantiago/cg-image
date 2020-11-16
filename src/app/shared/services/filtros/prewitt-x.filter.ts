@@ -26,6 +26,6 @@ export class PrewittXFilter extends BaseFilterService implements Filter {
     }
 
     public transform(image: PgmFile, type: MaskType): number[] {
-        return this.filterImage(image, this.mask, type);
+        return this.filterImage(image, this.mask, type, true);
     }
 }

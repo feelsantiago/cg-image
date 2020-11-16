@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Filter, FilterTypes } from '../types/filter';
 import { FilterTypeInfo, getFilterInfo } from '../utils/filter.decorator';
+import { AltoReforcoFilter } from './filtros/alto-reforco.filter';
 import { PassaAltoAgucamentoFilter } from './filtros/passa-alto-agucamento.filter';
 import { PassaAltoBordaFilter } from './filtros/passa-alto-bordas.filter';
 import { PassaBaixoMediaFilter } from './filtros/passa-baixo-media.filter';
@@ -32,6 +33,7 @@ export class FilterService {
         private readonly prewittX: PrewittXFilter,
         private readonly prewittY: PrewittYFilter,
         private readonly prewittMag: PrewittMagFilter,
+        private readonly altoReforco: AltoReforcoFilter,
     ) {}
 
     public getAllFilters(): FilterTypeInfo[] {
@@ -49,6 +51,7 @@ export class FilterService {
             getFilterInfo(this.prewittX),
             getFilterInfo(this.prewittY),
             getFilterInfo(this.prewittMag),
+            getFilterInfo(this.altoReforco),
         ];
     }
 
@@ -80,6 +83,8 @@ export class FilterService {
                 return this.prewittY;
             case FilterTypes.PrewittMag:
                 return this.prewittMag;
+            case FilterTypes.AltoReforco:
+                return this.altoReforco;
         }
     }
 }
