@@ -12,4 +12,8 @@ export enum FilterTypes {
 
     PassaBaixoMedia,
     PassaBaixoMediana,
+
+    RobertsX,
+    RobertsY,
+    RobertsMag,
 }
