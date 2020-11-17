@@ -15,6 +15,9 @@ import { RobertsCruzadoYFilter } from './filtros/roberts-cruzado-y.filter';
 import { RobertsMagFilter } from './filtros/roberts-mag.filter';
 import { RobertsXFilter } from './filtros/roberts-x.filter';
 import { RobertsYFilter } from './filtros/roberts-y.filter';
+import { SobelMagFilter } from './filtros/sobel-mag.filter';
+import { SobelXFilter } from './filtros/sobel-x.filter';
+import { SobelYFilter } from './filtros/sobel-y.filter';
 
 @Injectable({ providedIn: 'root' })
 export class FilterService {
@@ -33,6 +36,9 @@ export class FilterService {
         private readonly prewittX: PrewittXFilter,
         private readonly prewittY: PrewittYFilter,
         private readonly prewittMag: PrewittMagFilter,
+        private readonly sobelX: SobelXFilter,
+        private readonly sobelY: SobelYFilter,
+        private readonly sobelMag: SobelMagFilter,
         private readonly altoReforco: AltoReforcoFilter,
     ) {}
 
@@ -51,6 +57,9 @@ export class FilterService {
             getFilterInfo(this.prewittX),
             getFilterInfo(this.prewittY),
             getFilterInfo(this.prewittMag),
+            getFilterInfo(this.sobelX),
+            getFilterInfo(this.sobelY),
+            getFilterInfo(this.sobelMag),
             getFilterInfo(this.altoReforco),
         ];
     }
@@ -83,6 +92,12 @@ export class FilterService {
                 return this.prewittY;
             case FilterTypes.PrewittMag:
                 return this.prewittMag;
+            case FilterTypes.SobelX:
+                return this.sobelX;
+            case FilterTypes.SobelY:
+                return this.sobelY;
+            case FilterTypes.SobelMag:
+                return this.sobelMag;
             case FilterTypes.AltoReforco:
                 return this.altoReforco;
         }

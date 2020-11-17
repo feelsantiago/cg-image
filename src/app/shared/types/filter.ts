@@ -24,6 +24,10 @@ export enum FilterTypes {
     PrewittY,
     PrewittMag,
 
+    SobelX,
+    SobelY,
+    SobelMag,
+
     AltoReforco,
 }
 
