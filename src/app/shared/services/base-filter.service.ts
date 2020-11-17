@@ -21,9 +21,6 @@ export class BaseFilterService {
 
             for (let j = 0; j < 9; j++) {
                 sum += neighborhoods[j] * mask[j];
-
-                // sum = sum > 255 ? 255 : Math.max(0, sum);
-
                 if (abs) sum = Math.abs(sum);
             }
 

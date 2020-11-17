@@ -22,21 +22,15 @@ export class PassaBaixoMedianaFilter
         const newImage = [];
 
         for (let i = 0; i < image.length; i++) {
-            const neighborhoods = this.getNeighborhoods(i, image, false, false);
-
-            const pixelBefore = image.pixels[i];
-
-            neighborhoods.splice(4, 1);
+            const neighborhoods = this.getNeighborhoods(i, image, false);
             neighborhoods.sort();
 
-            const half = neighborhoods.length / 2;
-            if (neighborhoods.length % 2 === 0) {
-                const middleOne = neighborhoods[half];
-                const middleTwo = neighborhoods[half + 1];
-                newImage.push(middleOne + middleTwo / 2);
-            } else {
-                newImage.push(neighborhoods[half - 0.5]);
-            }
+            const middleIndex = Math.floor(neighborhoods.length / 2);
+
+            if (neighborhoods.length % 2)
+                newImage.push(neighborhoods[middleIndex]);
+            else
+                newImage.push((middleIndex + (middleIndex - 1)) / 2)
         }
 
         return newImage;
