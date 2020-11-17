@@ -14,9 +14,9 @@ import { ImageHelperService } from '../image-helper.service';
 export class RobertsYFilter extends BaseFilterService implements Filter {
     // prettier-ignore
     private mask: Mask = [
-        0, 0,  0,
-        0, 1, -1,
-        0, 0,  0
+         0, 0,  0,
+        -1, 1, 0,
+         0, 0,  0
     ];
 
 
@@ -25,6 +25,6 @@ export class RobertsYFilter extends BaseFilterService implements Filter {
     }
 
     public transform(image: PgmFile, type: MaskType): number[] {
-        return this.filterImage(image, this.mask, type, true);
+        return this.filterImage(image, this.mask, type);
     }
 }

@@ -14,9 +14,9 @@ import { ImageHelperService } from '../image-helper.service';
 export class RobertsCruzadoXFilter extends BaseFilterService implements Filter {
     // prettier-ignore
     private mask: Mask = [
-        0, 0,  0,
+        0, 0, -1,
         0, 1,  0,
-        0, 0, -1
+        0, 0,  0
     ];
 
     constructor(imageHelperService: ImageHelperService) {
@@ -24,6 +24,6 @@ export class RobertsCruzadoXFilter extends BaseFilterService implements Filter {
     }
 
     public transform(image: PgmFile, type: MaskType): number[] {
-        return this.filterImage(image, this.mask, type, true);
+        return this.filterImage(image, this.mask, type);
     }
 }

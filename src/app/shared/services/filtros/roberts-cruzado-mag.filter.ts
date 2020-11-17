@@ -14,16 +14,16 @@ import { ImageHelperService } from '../image-helper.service';
 export class RobertsCruzadoMagFilter extends BaseFilterService implements Filter {
     // prettier-ignore
     private maskX: Mask = [
-        0,  0,  0,
+        0,  0, -1,
         0,  1,  0,
-        0,  0, -1
+        0,  0,  0
     ];
 
     // prettier-ignore
     private maskY: Mask = [
-        0,  0, 0,
-        0,  0, 1,
-        0, -1, 0
+        -1,  0, 0,
+         0,  1, 0,
+         0,  0, 0
     ];
 
     constructor(imageHelperService: ImageHelperService) {

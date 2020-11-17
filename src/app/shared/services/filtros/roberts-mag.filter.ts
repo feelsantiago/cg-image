@@ -14,16 +14,16 @@ import { ImageHelperService } from '../image-helper.service';
 export class RobertsMagFilter extends BaseFilterService implements Filter {
     // prettier-ignore
     private maskX: Mask = [
-        0,  0, 0,
+        0, -1, 0,
         0,  1, 0,
-        0, -1, 0
+        0,  0, 0
     ];
 
     // prettier-ignore
     private maskY: Mask = [
-        0, 0,  0,
-        0, 1, -1,
-        0, 0,  0
+         0, 0, 0,
+        -1, 1, 0,
+         0, 0, 0
     ];
 
     constructor(imageHelperService: ImageHelperService) {
@@ -31,8 +31,8 @@ export class RobertsMagFilter extends BaseFilterService implements Filter {
     }
 
     public transform(image: PgmFile, type: MaskType): number[] {
-        const filterX = this.filterImage(image, this.maskX, type, true);
-        const filterY = this.filterImage(image, this.maskY, type, true);
+        const filterX = this.filterImage(image, this.maskX, type);
+        const filterY = this.filterImage(image, this.maskY, type);
 
         const imageMag = [];
 

@@ -32,7 +32,7 @@ export class AppComponent {
         if (this.image) {
             const filteredImage = this.filterService
                 .getFilter(Number(value))
-                .transform(this.image, MaskType.correlation);
+                .transform(this.image, MaskType.convolution);
 
             this.outPutCanvas.drawImage(
                 this.image.width,
