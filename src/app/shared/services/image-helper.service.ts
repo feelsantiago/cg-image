@@ -59,8 +59,9 @@ export class ImageHelperService {
         const newImage = [];
 
         for (let i = 0; i < image.length; i++) {
-            const pixel = newImage[i] * scalar;
-            newImage.push(Math.min(pixel, 255));
+            let a  = image[i];
+            const pixel = image[i] * scalar;
+            newImage.push(Math.floor(pixel));
         }
 
         return newImage;

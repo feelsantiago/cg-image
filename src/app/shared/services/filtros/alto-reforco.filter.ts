@@ -5,6 +5,7 @@ import { PgmFile } from '../../types/pgm-image';
 import { FilterInfo } from '../../utils/filter.decorator';
 import { BaseFilterService } from '../base-filter.service';
 import { ImageHelperService } from '../image-helper.service';
+import { PassaAltoBordaFilter } from './passa-alto-bordas.filter';
 import { PassaBaixoMediaFilter } from './passa-baixo-media.filter';
 
 @FilterInfo({
@@ -12,18 +13,30 @@ import { PassaBaixoMediaFilter } from './passa-baixo-media.filter';
     type: FilterTypes.AltoReforco,
 })
 @Injectable({ providedIn: 'root' })
-export class AltoReforcoFilter extends BaseFilterService implements Filter<AltoReforcoOptions> {
-    constructor(imageHelperService: ImageHelperService, private readonly passaBaixoMedia: PassaBaixoMediaFilter) {
+export class AltoReforcoFilter
+    extends BaseFilterService
+    implements Filter<AltoReforcoOptions> {
+
+    // prettier-ignore
+    private mask: Mask = [
+        -1/9, -1/9, -1/9,
+        -1/9,    9, -1/9,
+        -1/9, -1/9, -1/9
+    ];
+
+    constructor(imageHelperService: ImageHelperService) {
         super(imageHelperService);
     }
 
-    public transform(image: PgmFile, type: MaskType, options: AltoReforcoOptions = { fator: 1.3 }): number[] {
-        const passaBaixa = this.passaBaixoMedia.transform(image, MaskType.correlation);
-        const mask = this.imageHelperService.subtractImagesPixels(image.pixels, passaBaixa);
-        const imageAfterMask = this.imageHelperService.multiplyByScalar(mask, options.fator);
+    public transform(
+        image: PgmFile,
+        type: MaskType,
+        options: AltoReforcoOptions = { fator: 1.2 }
+    ): number[] {
 
-        return imageAfterMask;
+        const mask = Array.from(this.mask) as Mask;
+        mask[4] = ((mask[4] * options.fator) - 1) / 9;
 
-        return this.imageHelperService.addImagesPixels(image.pixels, imageAfterMask);
+        return this.filterImage(image, mask, type)
     }
 }

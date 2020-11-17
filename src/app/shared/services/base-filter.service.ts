@@ -20,7 +20,7 @@ export class BaseFilterService {
             let sum = 0;
 
             for (let j = 0; j < 9; j++) {
-                sum += neighborhoods[j] * mask[j];
+                sum += Math.floor(neighborhoods[j] * mask[j]);
                 if (abs) sum = Math.abs(sum);
             }
 
