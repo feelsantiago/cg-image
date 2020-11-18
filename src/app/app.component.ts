@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { CanvasComponent } from './shared/components/canvas/canvas.component';
 import { FilterService } from './shared/services/filter.service';
+import { AltoReforcoFilter } from './shared/services/filtros/alto-reforco.filter';
 import { Filter, FilterTypes } from './shared/types/filter';
 import { Mask, MaskType } from './shared/types/maks';
 import { PgmFile } from './shared/types/pgm-image';
@@ -24,15 +25,35 @@ export class AppComponent {
 
     public filters: FilterTypeInfo[] = [];
 
+    public selectedFilter: FilterTypes;
+
+    public fator: number = 1.2;
+
     constructor(private readonly filterService: FilterService) {
         this.filters = filterService.getAllFilters();
     }
 
     public onFilterSelectChange(value: string): void {
+        this.selectedFilter = Number(value);
+    }
+
+    public onFilterClick() {
         if (this.image) {
-            const filteredImage = this.filterService
-                .getFilter(Number(value))
-                .transform(this.image, MaskType.correlation);
+            const filter = this.filterService.getFilter(this.selectedFilter);
+
+            let filteredImage;
+            if (this.selectedFilter === FilterTypes.AltoReforco) {
+                filteredImage = (filter as AltoReforcoFilter).transform(
+                    this.image,
+                    MaskType.convolution,
+                    { fator: this.fator }
+                );
+            } else {
+                filteredImage = filter.transform(
+                    this.image,
+                    MaskType.convolution
+                );
+            }
 
             this.outPutCanvas.drawImage(
                 this.image.width,
@@ -41,7 +62,6 @@ export class AppComponent {
             );
         }
     }
-
     public async onFileChange(files: FilesEvent) {
         const values = Object.values(files);
 

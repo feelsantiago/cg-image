@@ -24,7 +24,7 @@ export class PgmFile {
     }
 
     public pixelAt(x: number, y: number): number {
-        const index = y * this.width + x;
+        const index = x * this.width + y;
         return index < 0 ? 0 : this.pixels[index];
     }
 
