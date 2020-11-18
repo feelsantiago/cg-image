@@ -48,3 +48,59 @@
 ></app-canvas>
 
 <hr />
+
+<div>
+    <h1>Operacoes</h1>
+    <label for="file-input-operacao-A">Selecione a imagem A: </label>
+    <input
+        id="file-input-filter"
+        name="file-input-filter"
+        type="file"
+        accept=".pgm"
+        placeholder="Imagem"
+        (change)="onFileChange($event.target.files, 'imageA')"
+    />
+    <label for="file-input-operacao-B">Selecione a imagem B: </label>
+    <input
+        id="file-input-filter"
+        name="file-input-filter"
+        type="file"
+        accept=".pgm"
+        placeholder="Imagem"
+        (change)="onFileChange($event.target.files, 'imageB')"
+    />
+</div>
+
+<div>
+    <label for="select-operation">Selecione a operacao: </label>
+    <select
+        name="select-operation"
+        (change)="onOperationSelectChange($event.target.value)"
+    >
+        <option value="none">Selecione uma operacao</option>
+        <option *ngFor="let operation of operations" [value]="operation.type">
+            {{ operation.name }}
+        </option>
+    </select>
+</div>
+<div>
+    <button (click)="onOperationClick()">Aplicar</button>
+</div>
+
+<app-canvas
+    #imageA
+    [width]="imageA ? imageA.width : 0"
+    [height]="imageA ? imageA.height : 0"
+></app-canvas>
+
+<app-canvas
+    #imageB
+    [width]="imageB ? imageB.width : 0"
+    [height]="imageB ? imageB.height : 0"
+></app-canvas>
+
+<app-canvas
+    #outPutCanvasOperation
+    [width]="imageA ? imageA.width : 0"
+    [height]="imageA ? imageA.height : 0"
+></app-canvas>

@@ -2,8 +2,10 @@ import { Component, ViewChild } from '@angular/core';
 import { CanvasComponent } from './shared/components/canvas/canvas.component';
 import { FilterService } from './shared/services/filter.service';
 import { AltoReforcoFilter } from './shared/services/filtros/alto-reforco.filter';
+import { OperationService } from './shared/services/operation.service';
 import { Filter, FilterTypes } from './shared/types/filter';
 import { Mask, MaskType } from './shared/types/maks';
+import { OperationInfo, OperationsTypes } from './shared/types/operation';
 import { PgmFile } from './shared/types/pgm-image';
 import { FilterTypeInfo, getFilterInfo } from './shared/utils/filter.decorator';
 
@@ -21,20 +23,44 @@ export class AppComponent {
     @ViewChild('outPutCanvas')
     public outPutCanvas: CanvasComponent;
 
+    @ViewChild('imageA')
+    public imageACanvas: CanvasComponent;
+
+    @ViewChild('imageB')
+    public imageBCanvas: CanvasComponent;
+
+    @ViewChild('outPutCanvasOperation')
+    public outPutCanvasOperation: CanvasComponent;
+
     public image: PgmFile;
 
     public filters: FilterTypeInfo[] = [];
 
+    public operations: OperationInfo[] = [];
+
     public selectedFilter: FilterTypes;
+
+    public selectedOperation: OperationsTypes;
 
     public fator: number = 1.2;
 
-    constructor(private readonly filterService: FilterService) {
+    public imageA: PgmFile;
+    public imageB: PgmFile;
+
+    constructor(
+        private readonly filterService: FilterService,
+        private readonly operationService: OperationService
+    ) {
         this.filters = filterService.getAllFilters();
+        this.operations = operationService.getOperations();
     }
 
     public onFilterSelectChange(value: string): void {
         this.selectedFilter = Number(value);
+    }
+
+    public onOperationSelectChange(value: string): void {
+        this.selectedOperation = Number(value);
     }
 
     public onFilterClick() {
@@ -62,16 +88,44 @@ export class AppComponent {
             );
         }
     }
-    public async onFileChange(files: FilesEvent) {
+
+    public onOperationClick() {
+        if (this.imageA && this.imageB) {
+            const transformedImage = this.operationService.transform(this.imageA, this.imageB, this.selectedOperation);
+            this.outPutCanvasOperation.drawImage(
+                this.imageA.width,
+                this.imageA.height,
+                transformedImage
+            )
+        }
+    }
+
+    public async onFileChange(files: FilesEvent, type: string) {
         const values = Object.values(files);
 
         if (values && values.length > 0) {
-            this.image = await PgmFile.load(values.shift());
-            this.canvas.drawImage(
-                this.image.width,
-                this.image.height,
-                this.image.pixels
-            );
+            if (!type) {
+                this.image = await PgmFile.load(values.shift());
+                this.canvas.drawImage(
+                    this.image.width,
+                    this.image.height,
+                    this.image.pixels
+                );
+            } else if (type === 'imageA') {
+                this.imageA = await PgmFile.load(values.shift());
+                this.imageACanvas.drawImage(
+                    this.imageA.width,
+                    this.imageA.height,
+                    this.imageA.pixels
+                );
+            } else if (type === 'imageB') {
+                this.imageB = await PgmFile.load(values.shift());
+                this.imageBCanvas.drawImage(
+                    this.imageB.width,
+                    this.imageB.height,
+                    this.imageB.pixels
+                );
+            }
         }
     }
 }
