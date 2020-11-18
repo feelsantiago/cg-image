@@ -2,12 +2,14 @@ import { Component, ViewChild } from '@angular/core';
 import { CanvasComponent } from './shared/components/canvas/canvas.component';
 import { FilterService } from './shared/services/filter.service';
 import { AltoReforcoFilter } from './shared/services/filtros/alto-reforco.filter';
+import { HistogramaService } from './shared/services/histograma.service';
 import { OperationService } from './shared/services/operation.service';
 import { Filter, FilterTypes } from './shared/types/filter';
 import { Mask, MaskType } from './shared/types/maks';
 import { OperationInfo, OperationsTypes } from './shared/types/operation';
 import { PgmFile } from './shared/types/pgm-image';
 import { FilterTypeInfo, getFilterInfo } from './shared/utils/filter.decorator';
+import Plotly from 'plotly.js-dist';
 
 type FilesEvent = { [key: number]: File };
 
@@ -32,6 +34,9 @@ export class AppComponent {
     @ViewChild('outPutCanvasOperation')
     public outPutCanvasOperation: CanvasComponent;
 
+    @ViewChild('histogram')
+    public histogramCanvas: CanvasComponent;
+
     public image: PgmFile;
 
     public filters: FilterTypeInfo[] = [];
@@ -46,10 +51,12 @@ export class AppComponent {
 
     public imageA: PgmFile;
     public imageB: PgmFile;
+    public histogramImage: PgmFile;
 
     constructor(
         private readonly filterService: FilterService,
-        private readonly operationService: OperationService
+        private readonly operationService: OperationService,
+        private readonly histogramaService: HistogramaService,
     ) {
         this.filters = filterService.getAllFilters();
         this.operations = operationService.getOperations();
@@ -91,12 +98,16 @@ export class AppComponent {
 
     public onOperationClick() {
         if (this.imageA && this.imageB) {
-            const transformedImage = this.operationService.transform(this.imageA, this.imageB, this.selectedOperation);
+            const transformedImage = this.operationService.transform(
+                this.imageA,
+                this.imageB,
+                this.selectedOperation
+            );
             this.outPutCanvasOperation.drawImage(
                 this.imageA.width,
                 this.imageA.height,
                 transformedImage
-            )
+            );
         }
     }
 
@@ -125,7 +136,43 @@ export class AppComponent {
                     this.imageB.height,
                     this.imageB.pixels
                 );
+            } else if (type === 'histograma') {
+                this.histogramImage = await PgmFile.load(values.shift());
+                this.histogramCanvas.drawImage(
+                    this.histogramImage.width,
+                    this.histogramImage.height,
+                    this.histogramImage.pixels
+                );
+
+                this.showHistogram();
             }
         }
+    }
+
+    private showHistogram() {
+        const histogram = this.histogramaService.calculateHistograma(this.histogramImage.pixels, this.histogramImage.maxGreyValue);
+        Plotly.newPlot(
+            'plot-histogram-original',
+            [
+                {
+                    y: histogram,
+                    type: 'bar',
+                    marker: {
+                        color: 'rgba(255, 100, 102, 0.7)',
+                        line: {
+                            color: 'rgba(255, 100, 102, 1)',
+                            width: 1,
+                        },
+                    },
+                },
+            ],
+            {
+                bargap: 0,
+                bargroupgap: 0,
+                title: 'Imagem Original - Histograma',
+                xaxis: { title: 'k (níveis de cinza)' },
+                yaxis: { title: 'pr(rk)' },
+            }
+        );
     }
 }
