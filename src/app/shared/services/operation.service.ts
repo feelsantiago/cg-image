@@ -15,12 +15,12 @@ export class OperationService {
             type: OperationsTypes.subtracao,
         },
         {
-            name: 'Divisão',
-            type: OperationsTypes.divisao,
-        },
-        {
             name: 'Multiplicação',
             type: OperationsTypes.multiplicacao,
+        },
+        {
+            name: 'Divisão',
+            type: OperationsTypes.divisao,
         },
         {
             name: 'AND',
@@ -45,9 +45,40 @@ export class OperationService {
     public transform(imageA: PgmFile, imageB: PgmFile, operation: OperationsTypes): number[] {
         switch (operation) {
             case OperationsTypes.soma:
-                return this.imageHelperService.addImagesPixels(imageA.pixels, imageB.pixels);
+                return this.imageHelperService.add(
+                    imageA.pixels,
+                    imageB.pixels
+                );
             case OperationsTypes.subtracao:
-                return this.imageHelperService.subtractImagesPixels(imageA.pixels, imageB.pixels);
+                return this.imageHelperService.subtract(
+                    imageA.pixels,
+                    imageB.pixels
+                );
+            case OperationsTypes.multiplicacao:
+                return this.imageHelperService.multiply(
+                    imageA.pixels,
+                    imageB.pixels
+                );
+            case OperationsTypes.divisao:
+                return this.imageHelperService.divide(
+                    imageA.pixels,
+                    imageB.pixels
+                );
+            case OperationsTypes.and:
+                return this.imageHelperService.and(
+                    imageA.pixels,
+                    imageB.pixels
+                );
+            case OperationsTypes.or:
+                return this.imageHelperService.or(
+                    imageA.pixels,
+                    imageB.pixels
+                );
+            case OperationsTypes.xor:
+                return this.imageHelperService.xor(
+                    imageA.pixels,
+                    imageB.pixels
+                );
         }
     }
 }
