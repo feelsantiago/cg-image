@@ -104,7 +104,7 @@ export class AppComponent {
         const values = Object.values(files);
 
         if (values && values.length > 0) {
-            if (!type) {
+            if (type === 'filter') {
                 this.image = await PgmFile.load(values.shift());
                 this.canvas.drawImage(
                     this.image.width,

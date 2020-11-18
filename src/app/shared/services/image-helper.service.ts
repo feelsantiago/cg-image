@@ -26,7 +26,7 @@ export class ImageHelperService {
         return null;
     }
 
-    public addImagesPixels(imageA: number[], imageB: number[]): number[] {
+    public add(imageA: number[], imageB: number[]): number[] {
         const newImage = [];
 
         const length =
@@ -40,7 +40,7 @@ export class ImageHelperService {
         return newImage;
     }
 
-    public subtractImagesPixels(imageA: number[], imageB: number[]): number[] {
+    public subtract(imageA: number[], imageB: number[]): number[] {
         const newImage = [];
 
         const length =
@@ -55,13 +55,82 @@ export class ImageHelperService {
     }
 
     public multiplyByScalar(image: number[], scalar: number): number[] {
-
         const newImage = [];
 
         for (let i = 0; i < image.length; i++) {
-            let a  = image[i];
+            let a = image[i];
             const pixel = image[i] * scalar;
             newImage.push(Math.floor(pixel));
+        }
+
+        return newImage;
+    }
+
+    public multiply(imageA: number[], imageB: number[]): number[] {
+        const newImage = [];
+
+        const length =
+            imageA.length < imageB.length ? imageA.length : imageB.length;
+
+        for (let i = 0; i < length; i++) {
+            const pixel = imageA[i] * imageB[i];
+            newImage.push(Math.min(pixel, 255));
+        }
+
+        return newImage;
+    }
+
+    public divide(imageA: number[], imageB: number[]): number[] {
+        const newImage = [];
+
+        const length =
+            imageA.length < imageB.length ? imageA.length : imageB.length;
+
+        for (let i = 0; i < length; i++) {
+            const pixel = imageA[i] / imageB[i];
+            newImage.push(Math.max(pixel, 0));
+        }
+
+        return newImage;
+    }
+
+    public and(imageA: number[], imageB: number[]): number[] {
+        const newImage = [];
+
+        const length =
+            imageA.length < imageB.length ? imageA.length : imageB.length;
+
+        for (let i = 0; i < length; i++) {
+            const pixel = imageA[i] & imageB[i];
+            newImage.push(pixel > 255 ? 255 : Math.max(pixel, 0));
+        }
+
+        return newImage;
+    }
+
+    public or(imageA: number[], imageB: number[]): number[] {
+        const newImage = [];
+
+        const length =
+            imageA.length < imageB.length ? imageA.length : imageB.length;
+
+        for (let i = 0; i < length; i++) {
+            const pixel = imageA[i] | imageB[i];
+            newImage.push(pixel > 255 ? 255 : Math.max(pixel, 0));
+        }
+
+        return newImage;
+    }
+
+    public xor(imageA: number[], imageB: number[]): number[] {
+        const newImage = [];
+
+        const length =
+            imageA.length < imageB.length ? imageA.length : imageB.length;
+
+        for (let i = 0; i < length; i++) {
+            const pixel = imageA[i] ^ imageB[i];
+            newImage.push(pixel > 255 ? 255 : Math.max(pixel, 0));
         }
 
         return newImage;
