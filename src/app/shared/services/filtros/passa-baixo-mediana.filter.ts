@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import median from 'median';
 import { Filter, FilterTypes } from '../../types/filter';
 import { Mask, MaskType } from '../../types/maks';
 import { PgmFile } from '../../types/pgm-image';
@@ -22,15 +23,8 @@ export class PassaBaixoMedianaFilter
         const newImage = [];
 
         for (let i = 0; i < image.length; i++) {
-            const neighborhoods = this.getNeighborhoods(i, image, false);
-            neighborhoods.sort();
-
-            const middleIndex = Math.floor(neighborhoods.length / 2);
-
-            if (neighborhoods.length % 2)
-                newImage.push(neighborhoods[middleIndex]);
-            else
-                newImage.push((middleIndex + (middleIndex - 1)) / 2)
+            const neighborhoods = this.getNeighborhoods(i, image);
+            newImage.push(median(neighborhoods));
         }
 
         return newImage;

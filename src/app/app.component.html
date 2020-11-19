@@ -104,3 +104,32 @@
     [width]="imageA ? imageA.width : 0"
     [height]="imageA ? imageA.height : 0"
 ></app-canvas>
+
+<div>
+    <h1>Histograma</h1>
+    <label for="file-input-operacao-A">Selecione a imagem:</label>
+    <input
+        id="file-input-filter"
+        name="file-input-filter"
+        type="file"
+        accept=".pgm"
+        placeholder="Imagem"
+        (change)="onFileChange($event.target.files, 'histograma')"
+    />
+</div>
+
+<app-canvas
+    #histogram
+    [width]="histogramImage ? histogramImage.width : 0"
+    [height]="histogramImage ? histogramImage.height : 0"
+></app-canvas>
+
+<div id="plot-histogram-original"></div>
+
+<app-canvas
+    #histogramEqualized
+    [width]="histogramImage ? histogramImage.width : 0"
+    [height]="histogramImage ? histogramImage.height : 0"
+></app-canvas>
+
+<div id="plot-histogram-equalized"></div>
