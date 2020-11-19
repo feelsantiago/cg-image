@@ -37,6 +37,9 @@ export class AppComponent {
     @ViewChild('histogram')
     public histogramCanvas: CanvasComponent;
 
+    @ViewChild('histogramEqualized')
+    public histogramEqualizedCanvas: CanvasComponent;
+
     public image: PgmFile;
 
     public filters: FilterTypeInfo[] = [];
@@ -56,7 +59,7 @@ export class AppComponent {
     constructor(
         private readonly filterService: FilterService,
         private readonly operationService: OperationService,
-        private readonly histogramaService: HistogramaService,
+        private readonly histogramaService: HistogramaService
     ) {
         this.filters = filterService.getAllFilters();
         this.operations = operationService.getOperations();
@@ -150,12 +153,52 @@ export class AppComponent {
     }
 
     private showHistogram() {
-        const histogram = this.histogramaService.calculateHistograma(this.histogramImage.pixels, this.histogramImage.maxGreyValue);
+        const histogram = this.histogramaService.calculateHistograma(
+            this.histogramImage
+        );
+
+        const result = this.histogramaService.equalizeHistogram(
+            histogram,
+            this.histogramImage.maxGreyValue
+        );
+
+        const newImage = this.histogramImage.pixels.map((value) => result.pixelsMap[value]);
+
+        this.histogramEqualizedCanvas.drawImage(
+            this.histogramImage.width,
+            this.histogramImage.height,
+            newImage
+        )
+
         Plotly.newPlot(
             'plot-histogram-original',
             [
                 {
                     y: histogram,
+                    type: 'bar',
+                    marker: {
+                        color: 'rgba(255, 100, 102, 0.7)',
+                        line: {
+                            color: 'rgba(255, 100, 102, 1)',
+                            width: 1,
+                        },
+                    },
+                },
+            ],
+            {
+                bargap: 0,
+                bargroupgap: 0,
+                title: 'Imagem Original - Histograma',
+                xaxis: { title: 'k (níveis de cinza)' },
+                yaxis: { title: 'pr(rk)' },
+            }
+        );
+
+        Plotly.newPlot(
+            'plot-histogram-equalized',
+            [
+                {
+                    y: result.histogram,
                     type: 'bar',
                     marker: {
                         color: 'rgba(255, 100, 102, 0.7)',

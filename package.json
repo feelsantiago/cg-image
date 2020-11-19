@@ -19,6 +19,7 @@
     "@angular/platform-browser": "~10.1.0",
     "@angular/platform-browser-dynamic": "~10.1.0",
     "@angular/router": "~10.1.0",
+    "median": "0.0.2",
     "ndarray": "^1.0.19",
     "plotly.js-dist": "^1.57.1",
     "reflect-metadata": "^0.1.13",
