@@ -222,7 +222,7 @@ export class AppComponent {
             {
                 bargap: 0,
                 bargroupgap: 0,
-                title: 'Imagem Original - Histograma',
+                title: 'Imagem Equalizada - Histograma',
                 xaxis: { title: 'k (níveis de cinza)' },
                 yaxis: { title: 'pr(rk)' },
             }
