@@ -154,21 +154,31 @@ export class AppComponent {
 
     private showHistogram() {
         const histogram = this.histogramaService.calculateHistograma(
-            this.histogramImage
+            this.histogramImage.pixels,
+            this.histogramImage.length,
+            this.histogramImage.maxGreyValue
         );
 
-        const result = this.histogramaService.equalizeHistogram(
+        const pixelsMap = this.histogramaService.equalizeHistogram(
             histogram,
             this.histogramImage.maxGreyValue
         );
 
-        const newImage = this.histogramImage.pixels.map((value) => result.pixelsMap[value]);
+        const newImage = this.histogramImage.pixels.map((value) => pixelsMap[value]);
 
         this.histogramEqualizedCanvas.drawImage(
             this.histogramImage.width,
             this.histogramImage.height,
             newImage
-        )
+        );
+
+        const equalizedHistogram = this.histogramaService.calculateHistograma(
+            newImage,
+            this.histogramImage.length,
+            this.histogramImage.maxGreyValue
+        );
+
+        console.log(equalizedHistogram.reduce((acc, next) => acc + next));
 
         Plotly.newPlot(
             'plot-histogram-original',
@@ -198,7 +208,7 @@ export class AppComponent {
             'plot-histogram-equalized',
             [
                 {
-                    y: result.histogram,
+                    y: equalizedHistogram,
                     type: 'bar',
                     marker: {
                         color: 'rgba(255, 100, 102, 0.7)',
