@@ -36,9 +36,9 @@ export class ImageHelperService {
 
         for (let i = 0; i < length; i++) {
             const pixel = imageA[i] + imageB[i];
-            minValue = minValue < pixel ? minValue : pixel;
-            maxValue = maxValue > pixel ? maxValue : pixel;
-            newImage.push(Math.min(pixel, 255));
+            minValue = Math.min(pixel, minValue);
+            maxValue = Math.max(pixel, maxValue);
+            newImage.push(pixel);
         }
 
         return this.normalization(newImage, maxValue, minValue, 255);
@@ -54,9 +54,9 @@ export class ImageHelperService {
 
         for (let i = 0; i < length; i++) {
             const pixel = imageA[i] - imageB[i];
-            minValue = minValue < pixel ? minValue : pixel;
-            maxValue = maxValue > pixel ? maxValue : pixel;
-            newImage.push(Math.max(pixel, 0));
+            minValue = Math.min(pixel, minValue);
+            maxValue = Math.max(pixel, maxValue);
+            newImage.push(pixel);
         }
 
         return this.normalization(newImage, maxValue, minValue, 255);
@@ -70,9 +70,9 @@ export class ImageHelperService {
         for (let i = 0; i < image.length; i++) {
             let a = image[i];
             const pixel = image[i] * scalar;
-            minValue = minValue < pixel ? minValue : pixel;
-            maxValue = maxValue > pixel ? maxValue : pixel;
-            newImage.push(Math.floor(pixel));
+            minValue = Math.min(pixel, minValue);
+            maxValue = Math.max(pixel, maxValue);
+            newImage.push(pixel);
         }
 
         return this.normalization(newImage, maxValue, minValue, 255);
@@ -88,8 +88,8 @@ export class ImageHelperService {
 
         for (let i = 0; i < length; i++) {
             const pixel = imageA[i] * imageB[i];
-            minValue = minValue < pixel ? minValue : pixel;
-            maxValue = maxValue > pixel ? maxValue : pixel;
+            minValue = Math.min(pixel, minValue);
+            maxValue = Math.max(pixel, maxValue);
             newImage.push(pixel);
         }
 
@@ -106,9 +106,9 @@ export class ImageHelperService {
 
         for (let i = 0; i < length; i++) {
             const pixel = imageA[i] / imageB[i];
-            minValue = minValue < pixel ? minValue : pixel;
-            maxValue = maxValue > pixel ? maxValue : pixel;
-            newImage.push(Math.max(pixel, 0));
+            minValue = Math.min(pixel, minValue);
+            maxValue = Math.max(pixel, maxValue);
+            newImage.push(pixel);
         }
 
         return this.normalization(newImage, maxValue, minValue, 255);
@@ -116,27 +116,35 @@ export class ImageHelperService {
 
     public and(imageA: number[], imageB: number[]): number[] {
         const newImage = [];
+        let minValue = 255;
+        let maxValue = 0;
 
         const length =
             imageA.length < imageB.length ? imageA.length : imageB.length;
 
         for (let i = 0; i < length; i++) {
             const pixel = imageA[i] & imageB[i];
-            newImage.push(pixel > 255 ? 255 : Math.max(pixel, 0));
+            minValue = Math.min(pixel, minValue);
+            maxValue = Math.max(pixel, maxValue);
+            newImage.push(pixel);
         }
 
-        return newImage;
+        return this.normalization(newImage, maxValue, minValue, 255);
     }
 
     public or(imageA: number[], imageB: number[]): number[] {
         const newImage = [];
+        let minValue = 255;
+        let maxValue = 0;
 
         const length =
             imageA.length < imageB.length ? imageA.length : imageB.length;
 
         for (let i = 0; i < length; i++) {
             const pixel = imageA[i] | imageB[i];
-            newImage.push(pixel > 255 ? 255 : Math.max(pixel, 0));
+            minValue = Math.min(pixel, minValue);
+            maxValue = Math.max(pixel, maxValue);
+            newImage.push(pixel);
         }
 
         return newImage;
@@ -144,13 +152,17 @@ export class ImageHelperService {
 
     public xor(imageA: number[], imageB: number[]): number[] {
         const newImage = [];
+        let minValue = 255;
+        let maxValue = 0;
 
         const length =
             imageA.length < imageB.length ? imageA.length : imageB.length;
 
         for (let i = 0; i < length; i++) {
             const pixel = imageA[i] ^ imageB[i];
-            newImage.push(pixel > 255 ? 255 : Math.max(pixel, 0));
+            minValue = Math.min(pixel, minValue);
+            maxValue = Math.max(pixel, maxValue);
+            newImage.push(pixel);
         }
 
         return newImage;
