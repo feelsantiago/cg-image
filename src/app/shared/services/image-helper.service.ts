@@ -68,16 +68,20 @@ export class ImageHelperService {
 
     public multiply(imageA: number[], imageB: number[]): number[] {
         const newImage = [];
+        let minValue = 255;
+        let maxValue = 0;
 
         const length =
             imageA.length < imageB.length ? imageA.length : imageB.length;
 
         for (let i = 0; i < length; i++) {
             const pixel = imageA[i] * imageB[i];
-            newImage.push(Math.min(pixel, 255));
+            minValue = minValue < pixel ? minValue : pixel;
+            maxValue = maxValue > pixel ? maxValue : pixel;
+            newImage.push(pixel);
         }
 
-        return newImage;
+        return this.normalizacao(newImage, maxValue, minValue, 255);
     }
 
     public divide(imageA: number[], imageB: number[]): number[] {
@@ -131,6 +135,17 @@ export class ImageHelperService {
         for (let i = 0; i < length; i++) {
             const pixel = imageA[i] ^ imageB[i];
             newImage.push(pixel > 255 ? 255 : Math.max(pixel, 0));
+        }
+
+        return newImage;
+    }
+
+    private normalizacao(imageA: number[], maxPixelvalue: number, minPixelValue: number, maxCinzaValue: number): number[] {
+        const newImage = [];
+
+        for (let i = 0; i < imageA.length; i++) {
+            const pixel = (maxCinzaValue / maxPixelvalue - minPixelValue) * (imageA[i] - minPixelValue);
+            newImage.push(pixel);
         }
 
         return newImage;
