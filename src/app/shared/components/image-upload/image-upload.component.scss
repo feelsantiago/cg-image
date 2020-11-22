@@ -1,0 +1,45 @@
+.image-upload {
+    text-align: center;
+
+    input {
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: -1;
+    }
+
+    label {
+        display: inline-flex;
+        width: 100%;
+        font-size: 15px;
+        border-radius: 4px;
+        padding: 10px 52px;
+        margin: auto;
+
+        img {
+            height: 16px;
+            margin-top: 3px;
+            margin-right: 10px;
+            filter: brightness(0) invert(1);
+        }
+    }
+
+    input + label {
+        color: white;
+        background-color: #46c373;
+        border: 1px solid #46c373;
+        cursor: pointer;
+    }
+
+    input:focus + label,
+    input + label:hover {
+        img {
+            filter: invert(70%) sepia(15%) saturate(1612%) hue-rotate(89deg) brightness(91%) contrast(87%);
+        }
+
+        color: #46c373;
+        background-color: white;
+    }
+}

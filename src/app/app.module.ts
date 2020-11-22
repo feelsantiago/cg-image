@@ -5,10 +5,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { FormsModule } from '@angular/forms';
+import { FiltrationComponent } from './pages/filtration/filtration.component';
+import { OperationComponent } from './pages/operation/operation.component';
+import { HistogramComponent } from './pages/histogram/histogram.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
     imports: [BrowserModule, AppRoutingModule, SharedModule, FormsModule],
-    declarations: [AppComponent],
+    declarations: [AppComponent, FiltrationComponent, OperationComponent, HistogramComponent, NavbarComponent],
     providers: [],
     bootstrap: [AppComponent],
 })

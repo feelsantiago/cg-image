@@ -1,144 +1,19 @@
-<h1>CG - Processamento De Imagens</h1>
+<div class="app-container">
+    <header>
+        <div class="container">
+            <app-navbar></app-navbar>
+        </div>
+    </header>
 
-<div>
-    <h1>Filtros</h1>
-    <label for="file-input-filter">Selecione a imagem: </label>
-    <input
-        id="file-input-filter"
-        name="file-input-filter"
-        type="file"
-        accept=".pgm"
-        placeholder="Imagem"
-        (change)="onFileChange($event.target.files, 'filter')"
-    />
+    <div class="container page-container">
+        <hr class="divider" />
+
+        <div class="app-router">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+
+    <footer>
+        <p>Projeto de Computação Gráfica</p>
+    </footer>
 </div>
-<div>
-    <label for="select-filter">Selecione o filtro: </label>
-    <select
-        name="select-filter"
-        (change)="onFilterSelectChange($event.target.value)"
-    >
-        <option value="none">Selecione um filtro</option>
-        <option *ngFor="let filter of filters" [value]="filter.type">
-            {{ filter.name }}
-        </option>
-    </select>
-    <span *ngIf="selectedFilter === 16">
-        <label for="input-fator">A: </label>
-        <input
-            type="text"
-            name="input-fator"
-            id="input-fator"
-            [(ngModel)]="fator"
-        />
-    </span>
-    <span *ngIf="selectedFilter === 18">
-        <label for="input-gama">Y: </label>
-        <input
-            type="text"
-            name="input-gama"
-            id="input-gama"
-            [(ngModel)]="gama"
-        />
-    </span>
-</div>
-<div>
-    <button (click)="onFilterClick()">Filtrar</button>
-</div>
-<app-canvas
-    [width]="image ? image.width : 0"
-    [height]="image ? image.height : 0"
-></app-canvas>
-
-<app-canvas
-    #outPutCanvas
-    [width]="image ? image.width : 0"
-    [height]="image ? image.height : 0"
-></app-canvas>
-
-<hr />
-
-<div>
-    <h1>Operacoes</h1>
-    <label for="file-input-operacao-A">Selecione a imagem A: </label>
-    <input
-        id="file-input-filter"
-        name="file-input-filter"
-        type="file"
-        accept=".pgm"
-        placeholder="Imagem"
-        (change)="onFileChange($event.target.files, 'imageA')"
-    />
-    <label for="file-input-operacao-B">Selecione a imagem B: </label>
-    <input
-        id="file-input-filter"
-        name="file-input-filter"
-        type="file"
-        accept=".pgm"
-        placeholder="Imagem"
-        (change)="onFileChange($event.target.files, 'imageB')"
-    />
-</div>
-
-<div>
-    <label for="select-operation">Selecione a operacao: </label>
-    <select
-        name="select-operation"
-        (change)="onOperationSelectChange($event.target.value)"
-    >
-        <option value="none">Selecione uma operacao</option>
-        <option *ngFor="let operation of operations" [value]="operation.type">
-            {{ operation.name }}
-        </option>
-    </select>
-</div>
-<div>
-    <button (click)="onOperationClick()">Aplicar</button>
-</div>
-
-<app-canvas
-    #imageA
-    [width]="imageA ? imageA.width : 0"
-    [height]="imageA ? imageA.height : 0"
-></app-canvas>
-
-<app-canvas
-    #imageB
-    [width]="imageB ? imageB.width : 0"
-    [height]="imageB ? imageB.height : 0"
-></app-canvas>
-
-<app-canvas
-    #outPutCanvasOperation
-    [width]="imageA ? imageA.width : 0"
-    [height]="imageA ? imageA.height : 0"
-></app-canvas>
-
-<div>
-    <h1>Histograma</h1>
-    <label for="file-input-operacao-A">Selecione a imagem:</label>
-    <input
-        id="file-input-filter"
-        name="file-input-filter"
-        type="file"
-        accept=".pgm"
-        placeholder="Imagem"
-        (change)="onFileChange($event.target.files, 'histograma')"
-    />
-</div>
-
-<app-canvas
-    #histogram
-    [width]="histogramImage ? histogramImage.width : 0"
-    [height]="histogramImage ? histogramImage.height : 0"
-></app-canvas>
-
-<div id="plot-histogram-original"></div>
-
-<app-canvas
-    #histogramEqualized
-    [width]="histogramImage ? histogramImage.width : 0"
-    [height]="histogramImage ? histogramImage.height : 0"
-></app-canvas>
-
-<div id="plot-histogram-equalized"></div>

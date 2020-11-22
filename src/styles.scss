@@ -1,1 +1,57 @@
 /* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap");
+
+@import "bulma/bulma.sass";
+
+* {
+    box-sizing: border-box;
+}
+
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    position: relative;
+    min-height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    font-family: "Open Sans", sans-serif;
+}
+
+input {
+    font-family: "Open Sans", sans-serif;
+    padding: 20px;
+}
+
+select {
+    width: 100%;
+    font-size: 15px;
+    padding: 10px 20px;
+    color: #46c373;
+    border-color: #46c373;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button.btn-green {
+    width: 100%;
+    color: white;
+    background-color: #a5dc69;
+    border-color: #a5dc69;
+}
+
+.canva-image {
+    text-align: center;
+    width: 360px;
+    height: 300px;
+    padding: 22px;
+    margin: auto;
+    box-shadow: 0px 0px 10px darkgrey;
+}

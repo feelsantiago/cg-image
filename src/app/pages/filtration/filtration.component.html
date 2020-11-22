@@ -1,0 +1,72 @@
+<div class="filtration">
+    <div class="has-text-centered">
+        <label>Imagem Selecionada</label>
+
+        <div class="canva-image mt-3">
+            <app-canvas
+                [width]="image ? image.width : 0"
+                [height]="image ? image.height : 0"
+            ></app-canvas>
+        </div>
+    </div>
+
+    <div class="filtration-inputs">
+        <div class="filtration-input">
+            <app-image-upload
+                [imageType]="'filter'"
+                [label]="'Selecione uma imagem'"
+                (onImageChange)="onFileChange($event)"
+            ></app-image-upload>
+        </div>
+
+        <div class="filtration-input">
+            <select
+                name="select-filter"
+                (change)="onFilterSelectChange($event.target.value)"
+            >
+                <option value="none">Selecione um filtro</option>
+                <option *ngFor="let filter of filters" [value]="filter.type">
+                    {{ filter.name }}
+                </option>
+            </select>
+
+            <span *ngIf="selectedFilter === 16" class="input-filter">
+                <label for="input-fator">A: </label>
+                <input
+                    type="text"
+                    name="input-fator"
+                    id="input-fator"
+                    [(ngModel)]="fator"
+                />
+            </span>
+
+            <span *ngIf="selectedFilter === 18" class="input-filter">
+                <label for="input-gama">Y: </label>
+                <input
+                    type="text"
+                    name="input-gama"
+                    id="input-gama"
+                    [(ngModel)]="gama"
+                />
+            </span>
+        </div>
+
+        <div class="filtration-input">
+            <button class="button btn-green" (click)="onFilterClick()">
+                Filtrar
+            </button>
+        </div>
+    </div>
+
+    <div class="has-text-centered">
+        <label>Imagem Filtrada</label>
+
+        <div class="canva-image mt-3">
+            <app-canvas
+                #outPutCanvas
+                [width]="image ? image.width : 0"
+                [height]="image ? image.height : 0"
+            ></app-canvas>
+        </div>
+    </div>
+</div>

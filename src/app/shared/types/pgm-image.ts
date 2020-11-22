@@ -4,6 +4,13 @@
  * The first three lines compose the header [1º - ID, 2º - Width and Height, 3º - Max Grey Level]
  * The rest of the file represent the body witch every element represent a pixel
  */
+
+
+export type FilesEvent = { [key: number]: File };
+export interface ImageUpload {
+    files: File[];
+    type: string;
+}
 export class PgmFile {
     public id: string;
 

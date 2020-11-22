@@ -1,0 +1,52 @@
+<div class="histogram" [ngClass]="{ flex: !histogramImage }">
+    <div class="has-text-centered select-image" *ngIf="histogramImage">
+        <app-image-upload
+            [imageType]="'histograma'"
+            [label]="'Selecione uma imagem'"
+            (onImageChange)="onFileChange($event)"
+        ></app-image-upload>
+    </div>
+
+    <div class="histogram-flex">
+        <div class="has-text-centered image-canva">
+            <label>Imagem Selecionada</label>
+
+            <div class="canva-image mt-3">
+                <app-canvas
+                    #histogram
+                    [width]="histogramImage ? histogramImage.width : 0"
+                    [height]="histogramImage ? histogramImage.height : 0"
+                ></app-canvas>
+            </div>
+        </div>
+        <div class="has-text-centered">
+            <div id="plot-histogram-original"></div>
+        </div>
+    </div>
+
+    <div class="has-text-centered select-image" *ngIf="!histogramImage">
+        <app-image-upload
+            [imageType]="'histograma'"
+            [label]="'Selecione uma imagem'"
+            (onImageChange)="onFileChange($event)"
+        ></app-image-upload>
+    </div>
+
+    <div class="histogram-flex">
+        <div class="has-text-centered image-canva">
+            <label>Imagem Equalizada</label>
+
+            <div class="canva-image mt-3">
+                <app-canvas
+                    #histogramEqualized
+                    [width]="histogramImage ? histogramImage.width : 0"
+                    [height]="histogramImage ? histogramImage.height : 0"
+                ></app-canvas>
+            </div>
+        </div>
+
+        <div class="has-text-centered">
+            <div id="plot-histogram-equalized"></div>
+        </div>
+    </div>
+</div>

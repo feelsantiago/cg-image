@@ -1,0 +1,13 @@
+<div class="image-upload">
+    <input
+        id="file-input-{{ imageType }}"
+        name="file-input-{{ imageType }}"
+        type="file"
+        accept=".pgm"
+        (change)="onImageUploadedChange($event.target.files)"
+    />
+    <label for="file-input-{{ imageType }}">
+        <img src="assets/images/upload.png" alt="upload" />
+        {{ label }}
+    </label>
+</div>
