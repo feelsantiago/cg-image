@@ -29,6 +29,15 @@ export enum FilterTypes {
     SobelMag,
 
     AltoReforco,
+    Negativo,
+    Gama,
+    Logaritmo,
+    TransferenciaIntensidade,
+    TrasnferenciaFaixaDinamica,
+    TransferenciaLinear
 }
 
 export type AltoReforcoOptions = { fator: number };
+export type GamaOptions = { y: number };
+
+export type LogaritmoOptions = { a: number };

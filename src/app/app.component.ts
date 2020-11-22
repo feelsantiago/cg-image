@@ -10,6 +10,8 @@ import { OperationInfo, OperationsTypes } from './shared/types/operation';
 import { PgmFile } from './shared/types/pgm-image';
 import { FilterTypeInfo, getFilterInfo } from './shared/utils/filter.decorator';
 import Plotly from 'plotly.js-dist';
+import { GamaFilter } from './shared/services/filtros/gama.filter';
+import { LogaritmoFilter } from './shared/services/filtros/logaritimo.filter';
 
 type FilesEvent = { [key: number]: File };
 
@@ -52,6 +54,8 @@ export class AppComponent {
 
     public fator: number = 1.2;
 
+    public gama: number = 0.5;
+
     public imageA: PgmFile;
     public imageB: PgmFile;
     public histogramImage: PgmFile;
@@ -83,6 +87,12 @@ export class AppComponent {
                     this.image,
                     MaskType.convolution,
                     { fator: this.fator }
+                );
+            } else if (this.selectedFilter === FilterTypes.Gama) {
+                filteredImage = (filter as GamaFilter).transform(
+                    this.image,
+                    MaskType.convolution,
+                    { y: this.gama }
                 );
             } else {
                 filteredImage = filter.transform(
@@ -164,7 +174,9 @@ export class AppComponent {
             this.histogramImage.maxGreyValue
         );
 
-        const newImage = this.histogramImage.pixels.map((value) => pixelsMap[value]);
+        const newImage = this.histogramImage.pixels.map(
+            (value) => pixelsMap[value]
+        );
 
         this.histogramEqualizedCanvas.drawImage(
             this.histogramImage.width,

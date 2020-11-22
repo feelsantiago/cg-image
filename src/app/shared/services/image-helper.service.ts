@@ -147,7 +147,7 @@ export class ImageHelperService {
             newImage.push(pixel);
         }
 
-        return newImage;
+        return this.normalization(newImage, maxValue, minValue, 255);;
     }
 
     public xor(imageA: number[], imageB: number[]): number[] {
@@ -165,14 +165,14 @@ export class ImageHelperService {
             newImage.push(pixel);
         }
 
-        return newImage;
+        return this.normalization(newImage, maxValue, minValue, 255);;
     }
 
-    private normalization(imageA: number[], maxPixelvalue: number, minPixelValue: number, maxCinzaValue: number): number[] {
+    public normalization(image: number[], maxPixelvalue: number, minPixelValue: number, maxCinzaValue: number): number[] {
         const newImage = [];
 
-        for (let i = 0; i < imageA.length; i++) {
-            const pixel = Math.round(((maxCinzaValue / (maxPixelvalue - minPixelValue)) * (imageA[i] - minPixelValue)));
+        for (let i = 0; i < image.length; i++) {
+            const pixel = Math.round(((maxCinzaValue / (maxPixelvalue - minPixelValue)) * (image[i] - minPixelValue)));
             newImage.push(pixel);
         }
 

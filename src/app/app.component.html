@@ -32,6 +32,15 @@
             [(ngModel)]="fator"
         />
     </span>
+    <span *ngIf="selectedFilter === 18">
+        <label for="input-gama">Y: </label>
+        <input
+            type="text"
+            name="input-gama"
+            id="input-gama"
+            [(ngModel)]="gama"
+        />
+    </span>
 </div>
 <div>
     <button (click)="onFilterClick()">Filtrar</button>
