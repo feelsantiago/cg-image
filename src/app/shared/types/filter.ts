@@ -29,6 +29,7 @@ export enum FilterTypes {
     SobelMag,
 
     AltoReforco,
+    Negativo,
 }
 
 export type AltoReforcoOptions = { fator: number };

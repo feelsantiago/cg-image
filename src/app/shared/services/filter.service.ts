@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Filter, FilterTypes } from '../types/filter';
 import { FilterTypeInfo, getFilterInfo } from '../utils/filter.decorator';
 import { AltoReforcoFilter } from './filtros/alto-reforco.filter';
+import { NegativoFilter } from './filtros/negativo.filter';
 import { PassaAltoAgucamentoFilter } from './filtros/passa-alto-agucamento.filter';
 import { PassaAltoBordaFilter } from './filtros/passa-alto-bordas.filter';
 import { PassaBaixoMediaFilter } from './filtros/passa-baixo-media.filter';
@@ -40,6 +41,7 @@ export class FilterService {
         private readonly sobelY: SobelYFilter,
         private readonly sobelMag: SobelMagFilter,
         private readonly altoReforco: AltoReforcoFilter,
+        private readonly negativo: NegativoFilter,
     ) {}
 
     public getAllFilters(): FilterTypeInfo[] {
@@ -61,6 +63,7 @@ export class FilterService {
             getFilterInfo(this.sobelY),
             getFilterInfo(this.sobelMag),
             getFilterInfo(this.altoReforco),
+            getFilterInfo(this.negativo),
         ];
     }
 
@@ -100,6 +103,8 @@ export class FilterService {
                 return this.sobelMag;
             case FilterTypes.AltoReforco:
                 return this.altoReforco;
+            case FilterTypes.Negativo:
+                return this.negativo;
         }
     }
 }
