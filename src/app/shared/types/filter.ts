@@ -30,6 +30,11 @@ export enum FilterTypes {
 
     AltoReforco,
     Negativo,
+    Gama,
+    Logaritmo,
+    TransferenciaIntensidade,
+    TransferenciaLinear
 }
 
 export type AltoReforcoOptions = { fator: number };
+export type GamaOptions = { y: number };
