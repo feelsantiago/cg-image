@@ -36,9 +36,18 @@
         <label for="input-gama">Y: </label>
         <input
             type="text"
-            name="input-fator"
-            id="input-fator"
+            name="input-gama"
+            id="input-gama"
             [(ngModel)]="gama"
+        />
+    </span>
+    <span *ngIf="selectedFilter === 19">
+        <label for="input-logaritmo">A: </label>
+        <input
+            type="text"
+            name="input-logaritmo"
+            id="input-logaritmo"
+            [(ngModel)]="logaritmo"
         />
     </span>
 </div>

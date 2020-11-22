@@ -3,6 +3,7 @@ import { Filter, FilterTypes } from '../types/filter';
 import { FilterTypeInfo, getFilterInfo } from '../utils/filter.decorator';
 import { AltoReforcoFilter } from './filtros/alto-reforco.filter';
 import { GamaFilter } from './filtros/gama.filter';
+import { LogaritmoFilter } from './filtros/logaritimo.filter';
 import { NegativoFilter } from './filtros/negativo.filter';
 import { PassaAltoAgucamentoFilter } from './filtros/passa-alto-agucamento.filter';
 import { PassaAltoBordaFilter } from './filtros/passa-alto-bordas.filter';
@@ -44,6 +45,7 @@ export class FilterService {
         private readonly altoReforco: AltoReforcoFilter,
         private readonly negativo: NegativoFilter,
         private readonly gama: GamaFilter,
+        private readonly logaritmo: LogaritmoFilter,
     ) {}
 
     public getAllFilters(): FilterTypeInfo[] {
@@ -67,6 +69,7 @@ export class FilterService {
             getFilterInfo(this.altoReforco),
             getFilterInfo(this.negativo),
             getFilterInfo(this.gama),
+            getFilterInfo(this.logaritmo),
         ];
     }
 
@@ -110,6 +113,8 @@ export class FilterService {
                 return this.negativo;
             case FilterTypes.Gama:
                 return this.gama;
+            case FilterTypes.Logaritmo:
+                return this.logaritmo;
         }
     }
 }

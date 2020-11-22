@@ -11,6 +11,7 @@ import { PgmFile } from './shared/types/pgm-image';
 import { FilterTypeInfo, getFilterInfo } from './shared/utils/filter.decorator';
 import Plotly from 'plotly.js-dist';
 import { GamaFilter } from './shared/services/filtros/gama.filter';
+import { LogaritmoFilter } from './shared/services/filtros/logaritimo.filter';
 
 type FilesEvent = { [key: number]: File };
 
@@ -54,6 +55,7 @@ export class AppComponent {
     public fator: number = 1.2;
 
     public gama: number = 0.5;
+    public logaritmo: number = 100;
 
     public imageA: PgmFile;
     public imageB: PgmFile;
@@ -92,6 +94,12 @@ export class AppComponent {
                     this.image,
                     MaskType.convolution,
                     { y: this.gama }
+                );
+            } else if (this.selectedFilter === FilterTypes.Logaritmo) {
+                filteredImage = (filter as LogaritmoFilter).transform(
+                    this.image,
+                    MaskType.convolution,
+                    { a: this.logaritmo }
                 );
             } else {
                 filteredImage = filter.transform(
