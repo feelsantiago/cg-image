@@ -1,0 +1,78 @@
+<div class="operation">
+    <div class="operation-flex">
+        <div class="has-text-centered">
+            <label>Imagem A Selecionada</label>
+
+            <div class="canva-image mt-3">
+                <app-canvas
+                    #imageA
+                    [width]="imageA ? imageA.width : 0"
+                    [height]="imageA ? imageA.height : 0"
+                ></app-canvas>
+            </div>
+        </div>
+
+        <div class="operation-inputs">
+            <div class="operation-input">
+                <app-image-upload
+                    [imageType]="'imageA'"
+                    [label]="'Selecione a imagem A'"
+                    (onImageChange)="onFileChange($event)"
+                ></app-image-upload>
+            </div>
+
+            <div class="operation-input">
+                <app-image-upload
+                    [imageType]="'imageB'"
+                    [label]="'Selecione a imagem B'"
+                    (onImageChange)="onFileChange($event)"
+                ></app-image-upload>
+            </div>
+
+            <div class="operation-input">
+                <select
+                    name="select-operation"
+                    (change)="onOperationSelectChange($event.target.value)"
+                >
+                    <option value="none">Selecione uma operacao</option>
+                    <option
+                        *ngFor="let operation of operations"
+                        [value]="operation.type"
+                    >
+                        {{ operation.name }}
+                    </option>
+                </select>
+            </div>
+
+            <div class="operation-input">
+                <button class="button btn-green" (click)="onOperationClick()">
+                    Aplicar
+                </button>
+            </div>
+        </div>
+
+        <div class="has-text-centered">
+            <label>Imagem B Selecionada</label>
+
+            <div class="canva-image mt-3">
+                <app-canvas
+                    #imageB
+                    [width]="imageB ? imageB.width : 0"
+                    [height]="imageB ? imageB.height : 0"
+                ></app-canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="has-text-centered">
+        <label>Imagem Resultante</label>
+
+        <div class="canva-image mt-3">
+            <app-canvas
+                #outPutCanvasOperation
+                [width]="imageA ? imageA.width : 0"
+                [height]="imageA ? imageA.height : 0"
+            ></app-canvas>
+        </div>
+    </div>
+</div>

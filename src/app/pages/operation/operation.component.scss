@@ -1,0 +1,16 @@
+.operation {
+    .operation-flex {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .operation-inputs {
+        text-align: center;
+        width: 300px;
+        margin: auto 0px;
+
+        .operation-input {
+            margin-bottom: 20px;
+        }
+    }
+}
