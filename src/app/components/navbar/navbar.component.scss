@@ -1,0 +1,29 @@
+.navbar {
+    margin-top: 20px;
+
+    .navbar-brand {
+        display: flex;
+        align-items: center;
+
+        img {
+            margin-right: 10px;
+        }
+
+        span {
+            font-size: 35px;
+        }
+    }
+
+    a {
+        font-size: 18px;
+
+        &.active {
+            color: #46c373;
+        }
+
+        &:hover {
+            color: #46c373;
+            background-color: #a5dc6933;
+        }
+    }
+}
