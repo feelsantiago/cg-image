@@ -1,0 +1,19 @@
+.histogram {
+    &.flex,
+    .histogram-flex {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .select-image {
+        text-align: center;
+        width: 300px;
+        margin: auto;
+    }
+
+    .image-canva {
+        display: flex;
+        flex-direction: column;
+        padding: 32px 0px;
+    }
+}
