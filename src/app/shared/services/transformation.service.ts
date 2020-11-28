@@ -4,7 +4,6 @@ import { PgmFile } from '../types/pgm-image';
 @Injectable({ providedIn: 'root' })
 export class TransformationService {
     public rotate(image: PgmFile, deg: number): PgmFile {
-
         deg %= 360;
         const rad = (deg * Math.PI) / 180;
         const cosine = Math.cos(rad);
@@ -55,7 +54,6 @@ export class TransformationService {
     }
 
     public scale(image: PgmFile, deltaX, deltaY): PgmFile {
-
         let newWidth = Math.round(deltaX * image.width);
         let newHeight = Math.round(deltaY * image.height);
 
@@ -94,8 +92,11 @@ export class TransformationService {
         return newPgm;
     }
 
-    public translation(image: PgmFile, deltaX: number, deltaY: number): PgmFile {
-
+    public translation(
+        image: PgmFile,
+        deltaX: number,
+        deltaY: number
+    ): PgmFile {
         const newImage = Array.from(Array(image.length).keys()).map(() => 255);
 
         for (let i = 0; i < image.height; i++) {
@@ -104,7 +105,41 @@ export class TransformationService {
                 const y = j + (deltaY - 1);
                 const index = image.calculateArrayIndex(x, y);
 
-                if (index <= image.length && x < image.height && y < image.width) {
+                if (
+                    index <= image.length &&
+                    x < image.height &&
+                    y < image.width
+                ) {
+                    newImage[index] = image.pixelAt(i, j);
+                }
+            }
+        }
+
+        const newPgm = new PgmFile();
+        newPgm.pixels = newImage;
+        newPgm.height = image.height;
+        newPgm.width = image.width;
+
+        return newPgm;
+    }
+
+    public shear(image: PgmFile, deltaX: number, deltaY: number): PgmFile {
+        const newImage = Array.from(Array(image.length).keys()).map(() => 255);
+
+        const xOffset = Math.round((image.width * deltaX) / 2.0);
+        const yOffset = Math.round((image.height * deltaY) / 2.0);
+
+        for (let i = 0; i < image.height; i++) {
+            for (let j = 0; j < image.width; j++) {
+
+                let x = Math.round(i + deltaX * j);
+                x -= xOffset;
+
+                let y = Math.round(j + deltaY * x);
+                y -= yOffset;
+
+                const index = image.calculateArrayIndex(x, y);
+                if (index < image.length && x < image.height && y < image.width) {
                     newImage[index] = image.pixelAt(i, j);
                 }
             }
