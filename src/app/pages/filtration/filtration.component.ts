@@ -54,45 +54,45 @@ export class FiltrationComponent {
 
             // this.outPutImage = this.transformationService.rotate(this.image, 45);
 
-             this.outPutImage = this.transformationService.shear(
-                 this.image,
-                 0.5,
-                 0.5
-             );
-
-            this.outPutCanvas.drawImage(
-                this.outPutImage.width,
-                this.outPutImage.height,
-                this.outPutImage.pixels
-            );
-
-            // const filter = this.filterService.getFilter(this.selectedFilter);
-
-            // let filteredImage;
-            // if (this.selectedFilter === FilterTypes.AltoReforco) {
-            //     filteredImage = (filter as AltoReforcoFilter).transform(
-            //         this.image,
-            //         MaskType.convolution,
-            //         { fator: this.fator }
-            //     );
-            // } else if (this.selectedFilter === FilterTypes.Gama) {
-            //     filteredImage = (filter as GamaFilter).transform(
-            //         this.image,
-            //         MaskType.convolution,
-            //         { y: this.gama }
-            //     );
-            // } else {
-            //     filteredImage = filter.transform(
-            //         this.image,
-            //         MaskType.convolution
-            //     );
-            // }
+            //  this.outPutImage = this.transformationService.shear(
+            //      this.image,
+            //      0.5,
+            //      0.5
+            //  );
 
             // this.outPutCanvas.drawImage(
-            //     this.image.width,
-            //     this.image.height,
-            //     filteredImage
+            //     this.outPutImage.width,
+            //     this.outPutImage.height,
+            //     this.outPutImage.pixels
             // );
+
+            const filter = this.filterService.getFilter(this.selectedFilter);
+
+            let filteredImage;
+            if (this.selectedFilter === FilterTypes.AltoReforco) {
+                filteredImage = (filter as AltoReforcoFilter).transform(
+                    this.image,
+                    MaskType.convolution,
+                    { fator: this.fator }
+                );
+            } else if (this.selectedFilter === FilterTypes.Gama) {
+                filteredImage = (filter as GamaFilter).transform(
+                    this.image,
+                    MaskType.convolution,
+                    { y: this.gama }
+                );
+            } else {
+                filteredImage = filter.transform(
+                    this.image,
+                    MaskType.convolution
+                );
+            }
+
+            this.outPutCanvas.drawImage(
+                this.image.width,
+                this.image.height,
+                filteredImage
+            );
         }
     }
 
