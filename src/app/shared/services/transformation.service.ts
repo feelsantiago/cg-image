@@ -53,28 +53,41 @@ export class TransformationService {
     }
 
     public scale(image: PgmFile, deltaX, deltaY): PgmFile {
-        const scaleH = image.height * deltaX;
-        const scaleW = image.width * deltaY;
 
-        const newImage = new Array(scaleH * scaleW).map(() => 255);
+        let newWidth = Math.round(deltaX * image.width);
+        let newHeight = Math.round(deltaY * image.height);
 
-        for (let x = 0; x < image.height; x++) {
-            for (let y = 0; y < image.width; y++) {
-                const sourcePixel = image.pixelAt(x, y);
+        if (newWidth <= 0) {
+            newWidth = 1;
+        }
+        if (newHeight <= 0) {
+            newHeight = 1;
+        }
 
-                for (let i = 0; i < deltaX; i++) {
-                    for (let j = 0; j < deltaY; j++) {
-                        const index = Math.round(((x * deltaX) + i) * scaleW + ((y * deltaY) + j));
-                        newImage[index] = sourcePixel;
-                    }
+        if (newWidth === image.width && newHeight === image.height) {
+            return image;
+        }
+
+        const newImage = new Array(newHeight * newWidth).map(() => 0);
+
+        const wRatio = image.width / newWidth;
+        const hRatio = image.height / newHeight;
+
+        for (let i = 0; i < newWidth; i++) {
+            const w = Math.floor((i + 0.5) * wRatio);
+            for (let j = 0; j < newHeight; j++) {
+                const h = Math.floor((j + 0.5) * hRatio);
+                if (image.pixelAt(w, h)) {
+                    const index = i * newWidth + j;
+                    newImage[index] = image.pixelAt(w, h);
                 }
             }
         }
 
         const newPgm = new PgmFile();
         newPgm.pixels = newImage;
-        newPgm.height = scaleH;
-        newPgm.width = scaleW;
+        newPgm.height = newHeight;
+        newPgm.width = newWidth;
 
         return newPgm;
     }

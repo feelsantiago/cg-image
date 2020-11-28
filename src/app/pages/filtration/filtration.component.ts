@@ -25,6 +25,8 @@ export class FiltrationComponent {
 
     public filters: FilterTypeInfo[] = [];
 
+    public outPutImage: PgmFile;
+
     public selectedFilter: FilterTypes;
 
     public fator: number = 1.2;
@@ -42,12 +44,12 @@ export class FiltrationComponent {
     public onFilterClick() {
         if (this.image) {
 
-            const scale = this.transformationService.scale(this.image, 2, 2);
+            this.outPutImage = this.transformationService.scale(this.image, 1.5, 1.5);
 
             this.outPutCanvas.drawImage(
-                scale.width,
-                scale.height,
-                scale.pixels
+                this.outPutImage.width,
+                this.outPutImage.height,
+                this.outPutImage.pixels
             );
 
             // const filter = this.filterService.getFilter(this.selectedFilter);
