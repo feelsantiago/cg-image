@@ -7,6 +7,7 @@ import { FilterService } from '../../shared/services/filter.service';
 import { AltoReforcoFilter } from '../../shared/services/filtros/alto-reforco.filter';
 import { CanvasComponent } from '../../shared/components/canvas/canvas.component';
 import { GamaFilter } from 'src/app/shared/services/filtros/gama.filter';
+import { TransformationService } from 'src/app/shared/services/transformation.service';
 
 @Component({
     selector: 'app-filtration',
@@ -30,7 +31,7 @@ export class FiltrationComponent {
 
     public gama: number = 0.5;
 
-    constructor(private readonly filterService: FilterService) {
+    constructor(private readonly filterService: FilterService, private readonly transformationService: TransformationService) {
         this.filters = filterService.getAllFilters();
     }
 
@@ -40,39 +41,50 @@ export class FiltrationComponent {
 
     public onFilterClick() {
         if (this.image) {
-            const filter = this.filterService.getFilter(this.selectedFilter);
 
-            let filteredImage;
-            if (this.selectedFilter === FilterTypes.AltoReforco) {
-                filteredImage = (filter as AltoReforcoFilter).transform(
-                    this.image,
-                    MaskType.convolution,
-                    { fator: this.fator }
-                );
-            } else if (this.selectedFilter === FilterTypes.Gama) {
-                filteredImage = (filter as GamaFilter).transform(
-                    this.image,
-                    MaskType.convolution,
-                    { y: this.gama }
-                );
-            } else {
-                filteredImage = filter.transform(
-                    this.image,
-                    MaskType.convolution
-                );
-            }
+            const scale = this.transformationService.scale(this.image, 2, 2);
+
+            this.outPutCanvas.width = scale.scaleW;
+            this.outPutCanvas.height = scale.scaleH;
 
             this.outPutCanvas.drawImage(
-                this.image.width,
-                this.image.height,
-                filteredImage
+                scale.scaleW,
+                scale.scaleH,
+                scale.newImage
             );
+
+            // const filter = this.filterService.getFilter(this.selectedFilter);
+
+            // let filteredImage;
+            // if (this.selectedFilter === FilterTypes.AltoReforco) {
+            //     filteredImage = (filter as AltoReforcoFilter).transform(
+            //         this.image,
+            //         MaskType.convolution,
+            //         { fator: this.fator }
+            //     );
+            // } else if (this.selectedFilter === FilterTypes.Gama) {
+            //     filteredImage = (filter as GamaFilter).transform(
+            //         this.image,
+            //         MaskType.convolution,
+            //         { y: this.gama }
+            //     );
+            // } else {
+            //     filteredImage = filter.transform(
+            //         this.image,
+            //         MaskType.convolution
+            //     );
+            // }
+
+            // this.outPutCanvas.drawImage(
+            //     this.image.width,
+            //     this.image.height,
+            //     filteredImage
+            // );
         }
     }
 
     public async onFileChange(values: ImageUpload) {
         const files = values.files;
-        const type = values.type;
 
         if (files && files.length > 0) {
             this.image = await PgmFile.load(files.shift());
