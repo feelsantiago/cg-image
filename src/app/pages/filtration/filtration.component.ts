@@ -52,6 +52,8 @@ export class FiltrationComponent {
             //     40
             // );
 
+            // this.outPutImage = this.transformationService.rotate(this.image, 45);
+
              this.outPutImage = this.transformationService.shear(
                  this.image,
                  0.5,
