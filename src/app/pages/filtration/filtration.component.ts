@@ -43,8 +43,14 @@ export class FiltrationComponent {
 
     public onFilterClick() {
         if (this.image) {
+            // SCALING
+            // this.outPutImage = this.transformationService.scale(this.image, 0.5, 0.5);
 
-            this.outPutImage = this.transformationService.scale(this.image, 1.5, 1.5);
+            this.outPutImage = this.transformationService.translation(
+                this.image,
+                10,
+                40
+            );
 
             this.outPutCanvas.drawImage(
                 this.outPutImage.width,

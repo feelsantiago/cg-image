@@ -47,6 +47,6 @@ export class MorphologyService {
         height: number,
         width: number
     ): number[] {
-        return new Array(height * width).map(() => 0);
+        return Array.from(Array(height * width).keys()).map(() => 0);
     }
 }

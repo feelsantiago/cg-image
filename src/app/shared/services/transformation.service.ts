@@ -3,16 +3,14 @@ import { PgmFile } from '../types/pgm-image';
 
 @Injectable({ providedIn: 'root' })
 export class TransformationService {
-    public rotate(image: PgmFile, deg: number): number[] {
+    public rotate(image: PgmFile, deg: number): PgmFile {
 
         deg %= 360;
         const rad = (deg * Math.PI) / 180;
         const cosine = Math.cos(rad);
         const sine = Math.sin(rad);
 
-        const newImage = new Array(image.height * image.width).map(
-            () => 255
-        );
+        const newImage = Array.from(Array(image.length).keys()).map(() => 255);
 
         const translate2Cartesian = this.createTranslationFunction(
             -(image.width / 2),
@@ -49,7 +47,11 @@ export class TransformationService {
             }
         }
 
-        return newImage;
+        const newPgm = new PgmFile();
+        newPgm.pixels = newImage;
+        newPgm.height = image.height;
+        newPgm.width = image.width;
+        return newPgm;
     }
 
     public scale(image: PgmFile, deltaX, deltaY): PgmFile {
@@ -68,7 +70,7 @@ export class TransformationService {
             return image;
         }
 
-        const newImage = new Array(newHeight * newWidth).map(() => 0);
+        const newImage = Array.from(Array(image.length).keys()).map(() => 255);
 
         const wRatio = image.width / newWidth;
         const hRatio = image.height / newHeight;
@@ -88,6 +90,30 @@ export class TransformationService {
         newPgm.pixels = newImage;
         newPgm.height = newHeight;
         newPgm.width = newWidth;
+
+        return newPgm;
+    }
+
+    public translation(image: PgmFile, deltaX: number, deltaY: number): PgmFile {
+
+        const newImage = Array.from(Array(image.length).keys()).map(() => 255);
+
+        for (let i = 0; i < image.height; i++) {
+            for (let j = 0; j < image.width; j++) {
+                const x = i + (deltaX - 1);
+                const y = j + (deltaY - 1);
+                const index = image.calculateArrayIndex(x, y);
+
+                if (index <= image.length && x < image.height && y < image.width) {
+                    newImage[index] = image.pixelAt(i, j);
+                }
+            }
+        }
+
+        const newPgm = new PgmFile();
+        newPgm.pixels = newImage;
+        newPgm.height = image.height;
+        newPgm.width = image.width;
 
         return newPgm;
     }
