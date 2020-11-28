@@ -31,11 +31,16 @@ export class PgmFile {
     }
 
     public pixelAt(x: number, y: number): number {
-        const index = x * this.width + y;
+        const index = this.calculateArrayIndex(x, y);
         return index < 0 ? 0 : this.pixels[index];
     }
 
+    public calculateArrayIndex(x: number, y: number): number {
+        return x * this.width + y;
+    }
+
     private static async readFile(file: File): Promise<PgmFile> {
+
         return new Promise((resolve, reject) => {
             const fileReader = new FileReader();
 
@@ -73,7 +78,10 @@ export class PgmFile {
 
         /* CONTENT BODY */
         for (let line of lines) {
-            const pixels = line.split(' ').map((pixel) => Number(pixel));
+            const pixels = line.split(' ').map((pixel) => {
+                const a = Number(pixel);
+                return a;
+            });
             file.pixels.push(...pixels);
         }
 
