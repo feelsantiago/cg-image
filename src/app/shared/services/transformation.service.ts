@@ -52,30 +52,31 @@ export class TransformationService {
         return newImage;
     }
 
-    public scale(image: PgmFile, deltaX, deltaY) {
+    public scale(image: PgmFile, deltaX, deltaY): PgmFile {
         const scaleH = image.height * deltaX;
         const scaleW = image.width * deltaY;
 
-        const newImage = new Array(scaleH * scaleW).map(() => 0);
+        const newImage = new Array(scaleH * scaleW).map(() => 255);
 
-        let last = 0;
         for (let x = 0; x < image.height; x++) {
             for (let y = 0; y < image.width; y++) {
                 const sourcePixel = image.pixelAt(x, y);
 
                 for (let i = 0; i < deltaX; i++) {
                     for (let j = 0; j < deltaY; j++) {
-                        const index = (x + i) * scaleW + (y + j);
-                        newImage[index + last] = sourcePixel;
+                        const index = Math.round(((x * deltaX) + i) * scaleW + ((y * deltaY) + j));
+                        newImage[index] = sourcePixel;
                     }
                 }
-
-                last += deltaY;
             }
-            last += deltaX;
         }
 
-        return { newImage, scaleH, scaleW };
+        const newPgm = new PgmFile();
+        newPgm.pixels = newImage;
+        newPgm.height = scaleH;
+        newPgm.width = scaleW;
+
+        return newPgm;
     }
 
     private createTranslationFunction(

@@ -44,13 +44,10 @@ export class FiltrationComponent {
 
             const scale = this.transformationService.scale(this.image, 2, 2);
 
-            this.outPutCanvas.width = scale.scaleW;
-            this.outPutCanvas.height = scale.scaleH;
-
             this.outPutCanvas.drawImage(
-                scale.scaleW,
-                scale.scaleH,
-                scale.newImage
+                scale.width,
+                scale.height,
+                scale.pixels
             );
 
             // const filter = this.filterService.getFilter(this.selectedFilter);
