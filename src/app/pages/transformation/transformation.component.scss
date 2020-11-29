@@ -1,0 +1,23 @@
+.transformation {
+    display: flex;
+    justify-content: space-between;
+
+    .transformation-inputs {
+        text-align: center;
+        width: 300px;
+        margin: auto 0px;
+
+        .transformation-input {
+            margin-bottom: 20px;
+        }
+    }
+
+    .input-filter {
+        input {
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #46c373;
+            border-radius: 4px;
+        }
+    }
+}

@@ -1,8 +1,33 @@
 import { Injectable } from '@angular/core';
 import { PgmFile } from '../types/pgm-image';
+import { TransformationInfo, TransformationTypes } from '../types/transformation';
 
 @Injectable({ providedIn: 'root' })
 export class TransformationService {
+    private readonly transformations: TransformationInfo[] = [
+        {
+            name: 'Rotação',
+            type: TransformationTypes.rotate,
+        },
+        {
+            name: 'Escalonamento',
+            type: TransformationTypes.scale,
+        },
+        {
+            name: 'Translação',
+            type: TransformationTypes.translation,
+        },
+        {
+            name: 'Cisalhamento',
+            type: TransformationTypes.shear,
+        },
+    ];
+
+    
+    public getTransformations(): TransformationInfo[] {
+        return this.transformations;
+    }
+
     public rotate(image: PgmFile, deg: number): PgmFile {
         deg %= 360;
         const rad = (deg * Math.PI) / 180;

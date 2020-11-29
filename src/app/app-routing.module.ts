@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { FiltrationComponent } from './pages/filtration/filtration.component';
 import { HistogramComponent } from './pages/histogram/histogram.component';
 import { OperationComponent } from './pages/operation/operation.component';
+import { TransformationComponent } from './pages/transformation/transformation.component';
 
 const routes: Routes = [
     {
@@ -16,6 +17,10 @@ const routes: Routes = [
     {
         path: 'histogram',
         component: HistogramComponent,
+    },
+    {
+        path: 'transformation',
+        component: TransformationComponent,
     },
     {
         path: '',
