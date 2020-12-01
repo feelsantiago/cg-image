@@ -44,6 +44,8 @@ export class HistogramaService {
                     );
                     pixelsMap[i] = diff < diffPrevious ? j : j - 1;
                     break;
+                } else {
+                    pixelsMap[i] = j;
                 }
             }
         }
