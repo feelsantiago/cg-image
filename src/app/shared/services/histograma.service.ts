@@ -22,8 +22,6 @@ export class HistogramaService {
     ): number[] {
         const equalized = [];
 
-        // precisa somar com o anterior no momento ta somando com o proximo
-        // a soma total tem que da um
         histogram.reduce((acc, next) => {
             const sum = acc + next;
             equalized.push(sum);
